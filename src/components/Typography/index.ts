@@ -1,0 +1,1 @@
+export { TextLinearGradient } from "./TextLinearGradient";

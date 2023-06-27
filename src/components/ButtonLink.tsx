@@ -1,6 +1,18 @@
 import React from "react";
+import { Button } from "./Button";
 
-// TODO: Button with a Link
-export const ButtonLink = () => {
-  return <div>ButtonLink</div>;
+interface ButtonLinkProps {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const ButtonLink = (props: ButtonLinkProps) => {
+  const { href, children, className } = props;
+
+  return (
+    <a href={href}>
+      <Button className={className}>{children}</Button>
+    </a>
+  );
 };
