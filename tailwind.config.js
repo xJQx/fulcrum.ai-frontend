@@ -5,7 +5,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "brand-white": "#FFFFFF",
+        brand: {
+          gunmetal: "#193338",
+          "persian-green": "#2BA193",
+          sunglow: "#FFC940",
+          "sandy-brown": "#F4A261",
+          "burnt-sienna": "#E76F51",
+        },
+      },
+      fontFamily: {
+        "work-sans": ["'Work Sans'", "sans-serif"],
+        "source-sans-pro": ["'Source Sans Pro'", "sans-serif"],
       },
     },
   },

@@ -4,6 +4,9 @@ import App from "./App";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 
+require("typeface-work-sans");
+require("typeface-source-sans-pro");
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
