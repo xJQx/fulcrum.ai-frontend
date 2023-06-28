@@ -25,7 +25,9 @@ export const TextLinearGradient = (props: TextLinearGradientProps) => {
   }
 
   return (
-    <span className={`${textLinearGradientClassName} ${className}`}>
+    <span
+      className={`inline-block ${textLinearGradientClassName} ${className}`}
+    >
       {children}
     </span>
   );

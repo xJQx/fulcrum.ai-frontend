@@ -13,7 +13,7 @@ export const Footer = () => {
   ];
 
   return (
-    <div className="bg-brand-gunmetal w-screen flex flex-col justify-center items-center py-[32px] md:py-[42px] pb-[42px] px-[24px] text-white">
+    <div className="relative bg-brand-gunmetal w-full flex flex-col justify-center items-center py-[32px] md:py-[42px] pb-[42px] px-[24px] text-white">
       {/* Brand Name */}
       <a href="/">
         <TextLinearGradient
