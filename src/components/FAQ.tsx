@@ -15,14 +15,8 @@ const FAQ = ({ icon, question, answer }: Props) => {
         borderRadius: "18px",
         boxShadow: "2px 4px 12px rgba(0,0,0,.08)",
         transition: "all .3s cubic-bezier(0,0,.5,1)",
-        height: "400px",
-        // width: isMobile ? "100%" : "", // Apply 100% width for mobile devices
-        // marginLeft: isMobile ? "auto" : "", // Center horizontally for mobile devices
-        // marginRight: isMobile ? "auto" : "", // Center horizontally for mobile devices
-        // marginBottom: isMobile ? "20px" : "",
-        // columnWidth: isMobile? "auto":"",
       }}
-      className="mt-5 rounded-md border-2 border-gray-100 bg-white px-5 py-16 text-center card"
+      className="mt-5 rounded-md border-2 border-gray-100 bg-white px-5 py-16 text-center min-h-0 h-auto card md:h-[400px]"
     >
       <div className="mb-4 flex justify-center text-brand-sandy-brown">
         <div

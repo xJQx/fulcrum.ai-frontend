@@ -12,6 +12,9 @@ module.exports = {
           "sandy-brown": "#F4A261",
           "burnt-sienna": "#E76F51",
         },
+        hyperlink:{
+          blue: "#0000EE",
+        },
       },
       fontFamily: {
         "work-sans": ["'Work Sans'", "sans-serif"],

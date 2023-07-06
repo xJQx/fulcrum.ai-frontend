@@ -15,11 +15,16 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
     register,
     trigger,
     formState: { errors },
+    reset,
   } = useForm();
 
   const onSubmit = async (e: any) => {
     const isValid = await trigger();
-    if (!isValid) {
+    if (isValid) {
+      // Call the onPostQns function if the form is valid
+      onPostQns();
+      reset(); // Reset the form fields
+    } else {
       e.preventDefault();
     }
   };
@@ -41,7 +46,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
         justifyContent: "center",
         zIndex: "1",
       }}
-      className={"modal"}
+      className="modal"
     >
       <div
         style={{
@@ -81,8 +86,9 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
             >
               <input
                 className={inputStyles}
-                id="name"
                 type="text"
+                id="name"
+                autoComplete="on"
                 placeholder="Name"
                 {...register("name", {
                   required: true,
@@ -100,6 +106,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
                 className={inputStyles}
                 id="email"
                 type="text"
+                autoComplete="on"
                 placeholder="Email"
                 {...register("email", {
                   required: true,
@@ -116,6 +123,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
               <textarea
                 className={inputStyles}
                 id="message"
+                autoComplete="on"
                 rows={4}
                 cols={50}
                 placeholder="Leave a message..."
@@ -133,16 +141,12 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
                 </p>
               )}
               <button
+                id="button"
                 type="submit"
                 className="mt-5 rounded-lg bg-brand-sunglow text-black px-20 py-3"
-                onClick={() => {
-                  {
-                    onPostQns;
-                  }
-                  {
-                    onSubmit;
-                  }
-                }}
+                // onClick={() => {
+                //   onPostQns();
+                // }}
               >
                 Post a Question
               </button>

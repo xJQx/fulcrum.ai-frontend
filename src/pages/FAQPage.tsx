@@ -62,13 +62,7 @@ export const FAQPage = () => {
       </section>
 
       <section
-        className="FAQsection p-4 px-8"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gridTemplateRows: "repeat(2, 1fr)",
-          gridGap: 20,
-        }}
+        className="FAQsection p-4 px-8 grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 md:gap-[20px]"
       >
         {FaQ.map((faq) => (
           <FAQ
