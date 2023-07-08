@@ -49,10 +49,11 @@ const FaQ: Array<{ icon: JSX.Element; question: string; answer: string }> = [
   },
 ];
 
+
 export const FAQPage = () => {
   return (
     <>
-      <section className="bg-brand-gunmetal pt-[5px] pb-[30px] md:pt-[10px] px-[48px] text-white flex flex-row justify-center gap-6">
+      <section className="bg-brand-gunmetal pt-[30px] md:pt-[5px] pb-[30px] md:pt-[10px] px-[48px] text-white flex flex-row justify-center gap-6">
         <div className="font-work-sans font-bold text-[30px] md:text-[40px] leading-tight text-center md:text-center above">
           Ask Us Anything
           <div className=" text-brand-sunglow font-source-sans-pro font-semibold max-w-[425px] text-[15px] pt-[15px] pb-[30px] text-center md:text-center below">
@@ -61,9 +62,7 @@ export const FAQPage = () => {
         </div>
       </section>
 
-      <section
-        className="FAQsection p-4 px-8 grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 md:gap-[20px]"
-      >
+      <section className="FAQsection p-4 px-8 grid grid-cols-1 gap-10 md:grid-cols-2 md:grid-rows-3 md:gap-[20px] xl:grid-cols-3 xl:grid-rows-2 xl:gap-[20px]">
         {FaQ.map((faq) => (
           <FAQ
             key={faq.question}
@@ -74,7 +73,7 @@ export const FAQPage = () => {
         ))}
       </section>
       <section className="FAQsection p-4 px-8 pb-8">
-        <GetInTouch/>
+        <GetInTouch />
       </section>
     </>
   );

@@ -6,20 +6,11 @@ import Modal from "./Modal/Modal";
 const GetInTouch = () => {
   const [ModalVisible, setModalVisible] = useState<boolean>(false);
 
-  const toggleModal = ()=> setModalVisible(!ModalVisible);
+  const toggleModal = () => setModalVisible(!ModalVisible);
 
   return (
-    <div
-      style={{
-        borderRadius: "16px",
-        padding: "20px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-      className="bg-brand-sandy-brown px-8"
-    >
-      <div className="text">
+    <div className="bg-brand-sandy-brown px-8 flex md:flex-row md:justify-between p-[20px] rounded-xl flex-col items-start">
+      <div className="text md:items-start">
         <h2 className="font-source-sans-pro font-semibold">
           Still have questions?
         </h2>
@@ -28,8 +19,11 @@ const GetInTouch = () => {
           team.
         </p>
       </div>
-      <div className="getInTouch cursor-pointer" onClick={toggleModal}>
-        <GetInTouchButtonLink >Get in touch</GetInTouchButtonLink>
+      <div
+        className="getInTouch cursor-pointer mt-[8px] mb-0"
+        onClick={toggleModal}
+      >
+        <GetInTouchButtonLink>Get in touch</GetInTouchButtonLink>
         <Modal isOpen={ModalVisible} onPostQns={toggleModal}></Modal>
       </div>
     </div>

@@ -17,7 +17,7 @@ export const GetInTouchButton = (props: ButtonProps) => {
         float: "right",
       }}
       className={
-        "px-[20px] md:px-[22px] py-[2px] md:py-[4px] bg-white font-semibold float-right GetInTouch" +
+        "px-[15px] md:px-[22px] py-[2px] md:py-[4px] bg-white font-semibold float-right GetInTouch" +
         ` ${className}`
       }
     >

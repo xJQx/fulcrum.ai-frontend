@@ -17,6 +17,12 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.uploadBtn:hover {
+  /* Apply pop-out effect on hover */
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .center_box{
   position: absolute;
   left: 50%;
@@ -24,3 +30,6 @@
   transform: translate(-50%, -50%);
 }
 
+.toast {
+  z-index: 1051;
+ }
