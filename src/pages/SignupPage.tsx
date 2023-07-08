@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { AuthContext } from "states/AuthContextProvider";
 
 type SignupInputs = {
   username: string;
@@ -17,6 +18,13 @@ export const SignupPage = () => {
     watch,
   } = useForm<SignupInputs>();
   const navigate = useNavigate();
+  const authContext = useContext(AuthContext);
+
+  useEffect(() => {
+    if (authContext.isLoggedIn) {
+      navigate("/");
+    }
+  }, []);
 
   const loginHandler: SubmitHandler<SignupInputs> = async (formData) => {
     console.log(formData);

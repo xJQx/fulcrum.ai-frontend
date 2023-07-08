@@ -1,13 +1,24 @@
 import { Hero } from "components/Hero";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import {
   FaArrowRight,
   FaCircleCheck,
   FaFilePdf,
   FaRobot,
 } from "react-icons/fa6";
+import { useNavigate } from "react-router";
+import { AuthContext } from "states/AuthContextProvider";
 
 export const HomePage = () => {
+  const navigate = useNavigate();
+  const authContext = useContext(AuthContext);
+
+  useEffect(() => {
+    if (authContext.isLoggedIn) {
+      navigate("/dashboard");
+    }
+  }, []);
+
   return (
     <div>
       {/* Hero Component */}

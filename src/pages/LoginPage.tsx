@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { AuthContext } from "states/AuthContextProvider";
 
 type LoginInputs = {
   username: string;
@@ -15,6 +16,13 @@ export const LoginPage = () => {
     handleSubmit,
   } = useForm<LoginInputs>();
   const navigate = useNavigate();
+  const authContext = useContext(AuthContext);
+
+  useEffect(() => {
+    if (authContext.isLoggedIn) {
+      navigate("/");
+    }
+  }, []);
 
   const loginHandler: SubmitHandler<LoginInputs> = async (formData) => {
     console.log(formData);
@@ -33,7 +41,8 @@ export const LoginPage = () => {
     //   toast.success("Login Successfully!");
     // }
 
-    navigate("/");
+    authContext.setIsLoggedIn(true);
+    navigate("/dashboard");
   };
 
   return (
