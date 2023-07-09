@@ -2,6 +2,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{html,js,jsx,ts,tsx}"],
+  
   theme: {
     extend: {
       colors: {
@@ -11,6 +12,9 @@ module.exports = {
           sunglow: "#FFC940",
           "sandy-brown": "#F4A261",
           "burnt-sienna": "#E76F51",
+        },
+        hyperlink:{
+          blue: "#0000EE",
         },
       },
       fontFamily: {
