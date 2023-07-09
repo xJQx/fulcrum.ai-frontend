@@ -3,6 +3,8 @@ import { ChatbotPage } from "pages/ChatbotPage";
 import { DashboardPage } from "pages/DashboardPage";
 import { DocsPage } from "pages/DocsPage";
 import { HomePage } from "pages/HomePage";
+import { LoginPage } from "pages/LoginPage";
+import { SignupPage } from "pages/SignupPage";
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { FAQPage } from "pages/FAQPage";
@@ -13,6 +15,8 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
           <Route path="/chatbot" element={<ChatbotPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/docs" element={<DocsPage />} />
