@@ -1,5 +1,3 @@
-import Dropdown from "components/Dropdown";
-import TextFile from "components/TextFile";
 import FileUploader from "components/FileUploader";
 import { TextLinearGradient } from "components/Typography/TextLinearGradient";
 import React, { useState } from "react";
@@ -69,16 +67,6 @@ export const ChatbotPage = () => {
           Make Your Own Chatbot Here
         </div>
       </div>
-      {/* <div className="relative">
-        <div className="relative w-5/6 mx-auto left-0 right-0 ">
-          <Dropdown />
-        </div>
-      </div>
-      <div className="relative">
-        <div className="absolute w-5/6 mx-auto left-0 z-99">
-          <TextFile />
-        </div>
-      </div> */}
 
       {/* PDF file drag and drop here */}
       <div className="flex flex-col justify-center">

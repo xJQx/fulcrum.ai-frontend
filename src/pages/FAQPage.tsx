@@ -21,7 +21,7 @@ const FaQ: Array<{ icon: JSX.Element; question: string; answer: string }> = [
     icon: <QuestionMarkCircleIcon className="h-6 w-6" />,
     question: "How does Fulcrum.ai work?",
     answer:
-      "After uploading the document you wish, in the data type you prefer, Fulcrum.ai will help you to create and train a reliable, custom made chatbot in a process that takes at most a few minutes. Try it out now by heading to the Chatbot tab.",
+      "After uploading the document you wish, Fulcrum.ai will help you to create and train a reliable, custom made chatbot in a process that takes at most a few minutes. Try it out now by heading to the Chatbot tab.",
   },
   {
     icon: <PencilSquareIcon className="h-6 w-6" />,
@@ -32,23 +32,21 @@ const FaQ: Array<{ icon: JSX.Element; question: string; answer: string }> = [
   {
     icon: <CurrencyDollarIcon className="h-6 w-6" />,
     question: "How much does this service cost?",
-    answer:
-      "Our pricing structure is free for Google Cloud and MongoDB Atlas users. ",
+    answer: "Our pricing structure is free for all users. ",
   },
   {
     icon: <CursorArrowRaysIcon className="h-6 w-6" />,
     question: "How can I get started with Fulcrum.ai?",
     answer:
-      "You can try Fulcrum.ai for free by signing up on our website. All you need to do is provide your information, upload the URLs for your knowledge base, and we'll custom make a chatbot just for you.",
+      "You can try Fulcrum.ai for free by signing up on our website. All you need to do is provide your information, upload the PDF file for your knowledge base, and we'll custom make a chatbot just for you.",
   },
   {
     icon: <CodeBracketIcon className="h-6 w-6" />,
     question: "Do I need any technical skills to use Fulcrum.ai?",
     answer:
-      "No technical skill or coding is required. Fulcrum.ai will take care of the heavy lifting for you. All that is needed from your end is uploading the document for the chatbot to be trained on. However, should you run into any issues in the process, we're here to help with email support for all our users.",
+      "No technical skill or coding is required. All that is needed from your end is uploading the document for the chatbot to be trained on. However, should you run into any issues in the process, we're here to help with email support for all our users.",
   },
 ];
-
 
 export const FAQPage = () => {
   return (
