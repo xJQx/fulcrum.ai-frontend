@@ -19,7 +19,7 @@ export const Navbar = () => {
       text: authContext.isLoggedIn ? "Dashboard" : "Demo",
       href: authContext.isLoggedIn ? "/dashboard" : "/demo",
     },
-    { text: "API", href: "/api" },
+    { text: "DOCS", href: "/docs" },
     { text: "FAQ", href: "/faq" },
   ];
 

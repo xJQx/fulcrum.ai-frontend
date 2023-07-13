@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import "./Modal.styles.css";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import cogoToast from "cogo-toast";
+import toast from "react-hot-toast";
 
 type Inputs = {
   name: string;
@@ -69,7 +69,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
       }
     );
     console.log(response.ok);
-    cogoToast.success("Form is submitted sucessfully!");
+    toast.success("Form is submitted sucessfully!");
     reset();
   };
 
