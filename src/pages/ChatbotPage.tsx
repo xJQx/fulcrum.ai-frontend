@@ -11,6 +11,9 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { Worker } from "@react-pdf-viewer/core"; // install this library
 import ChatbotTraining from "components/Modal/ChatbotTraining";
 import ChatbotCreated from "components/Modal/ChatbotCreated";
+import Spinner from "components/Spinner";
+import axios from "axios";
+import { FileIcon, defaultStyles } from "react-file-icon";
 
 export const ChatbotPage = () => {
   // create new plugin instance
@@ -23,10 +26,12 @@ export const ChatbotPage = () => {
   // view PDF
   const [viewPdf, setViewPdf] = useState(null);
 
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
   const fileType = ["application/pdf"];
 
   const handlePDFFile = (e: any) => {
-    let selectedFile = e.target.files[0];
+    let selectedFile = e.target.files && e.target.files[0];
     // if the person has even selected a file
     if (selectedFile) {
       if (selectedFile && fileType.includes(selectedFile.type)) {
@@ -36,12 +41,36 @@ export const ChatbotPage = () => {
           setPdfFile(e.target.result);
           setPdfFileError("");
         };
+
+        // Call the API to upload the training data
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+        formData.append(
+          "req",
+          JSON.stringify({
+            username: "esther",
+            chatbotID: "chatbot1",
+          })
+        );
+
+        axios
+          .post(
+            "http://127.0.0.1:8000/api/chatbot/uploadTrainingData",
+            formData
+          )
+          .then((response) => {
+            console.log("File uploaded successfully:", response.data.filename);
+          })
+          .catch((error) => {
+            console.error("Error uploading file:", error);
+          });
+        setSelectedFile(selectedFile);
       } else {
         setPdfFile(null);
         setPdfFileError("Please select valid PDF File.");
       }
     } else {
-      console.log("Select your file.");
+      setPdfFileError("Please select your file.");
     }
   };
 
@@ -52,43 +81,75 @@ export const ChatbotPage = () => {
       setViewPdf(pdfFile);
     } else {
       setViewPdf(null);
+      setPdfFileError("Please select your file.");
     }
   };
 
   return (
     <>
       <div>
-        <div className="font-work-sans font-semibold text-[45px] text-center pt-[40px]">
+        <div className="font-work-sans font-semibold text-[25px] px-4 md:text-[45px] md:px-0 text-center pt-[40px]">
           Say Hello To{" "}
           <TextLinearGradient brand> Quick, Accurate </TextLinearGradient>{" "}
           support
         </div>
-        <div className="font-work-sans font-medium text-[35px] text-center">
+        <div className="font-work-sans font-medium text-[20px] px-4 md:text-[35px] text-center pt-[10px]">
           Make Your Own Chatbot Here
         </div>
       </div>
 
       {/* PDF file drag and drop here */}
-      <div className="flex flex-col justify-center">
-        <div className="font-work-sans font-semibold text-[30px] flex w-auto mt-[50px] ml-[430px]">
-          PDF File
-        </div>
-        <FileUploader />
-        <div className="flex justify-center">
+
+      <div>
+        <div className="flex flex-col justify-center items-center mt-[30px] md:mt-[50px]">
+          <div className="font-work-sans font-semibold text-xl md:text-3xl mb-1 mr-[216px] md:mr-[460px]">
+            PDF File
+          </div>
+          <FileUploader handlePDFFile={handlePDFFile} />
+
+          {/* display selected file with option to remove and choose another */}
+          {selectedFile && (
+            <div className="mt-[10px] ml-[25px] file-preview flex">
+              <div className="flex mb-[10px] p-[15px] rounded-md bg-[#F2F2F2] md:w-[600px] relative file-preview__item">
+                <div className="w-[50px] h-[50px] flex items-center pr-[15px]">
+                  <FileIcon extension="pdf" {...defaultStyles.pdf} />
+                </div>
+                <div className="file-preview__item__info">
+                  <p>{selectedFile.name}</p>
+                  <p>{selectedFile.size}</p>
+                </div>
+                <button
+                  style={{ borderRadius: "50%" }}
+                  className=" text-white text-center bg-red-500 w-6 h-6 absolute right-[20px] top-1/2 transform -translate-y-1/2 flex items-center justify-center file-preview__item__del"
+                  onClick={() => setSelectedFile(null)}
+                >
+                  x
+                </button>
+              </div>
+            </div>
+          )}
+
           <button
             type="button"
             style={{ transition: "all .3s cubic-bezier(0,0,.5,1)" }}
-            className="w-[100px] mr-[475px] my-[10px] mb-[50px] items-center font-work-sans text-[#193338] bg-brand-sunglow font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 uploadBtn"
+            className=" w-[80px] md:w-[100px] mr-[216px] md:mr-[475px] my-[10px] mb-[50px] text-center font-work-sans text-[#193338] bg-brand-sunglow font-medium rounded-lg text-sm px-3 py-2.5 uploadBtn"
             onClick={(e) => {
-              handlePDFFile(e);
+              // handlePDFFile(e);
               handlePDFFileViewer(e);
             }}
           >
             Upload
           </button>
-          {pdfFileError && <div className="error-msg">{pdfFileError}</div>}
+
+          {pdfFileError && (
+            <div className="error-msg text-red-500 text-[16px]">
+              {pdfFileError}
+            </div>
+          )}
         </div>
+
         <br></br>
+
         <div className="flex flex-col">
           <div className="font-work-sans font-semibold text-[30px] flex w-auto mt-[50px] ml-[215px]">
             Page Preview
@@ -105,10 +166,15 @@ export const ChatbotPage = () => {
               </>
             )}
           </div>
+          <button
+            type="button"
+            style={{ transition: "all .3s cubic-bezier(0,0,.5,1)" }}
+            className="text-white bg-brand-persian-green focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center w-[80px] md:w-[100px] ml-[215px] mb-[50px] confirm_btn"
+          >
+            Confirm
+          </button>
         </div>
       </div>
-
-    
     </>
   );
 };
