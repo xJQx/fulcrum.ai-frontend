@@ -10,9 +10,6 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 // Worker
 import { Worker } from "@react-pdf-viewer/core"; // install this library
 import ChatbotTraining from "components/Modal/ChatbotTraining";
-import ChatbotCreated from "components/Modal/ChatbotCreated";
-import Spinner from "components/Spinner";
-import axios from "axios";
 import { FileIcon, defaultStyles } from "react-file-icon";
 
 export const ChatbotPage = () => {
@@ -26,19 +23,34 @@ export const ChatbotPage = () => {
   // view PDF
   const [viewPdf, setViewPdf] = useState(null);
 
+  // for displaying the selected pdf name and size below with option to delete
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const fileType = ["application/pdf"];
 
-  const handlePDFFile = (e: any) => {
-    let selectedFile = e.target.files && e.target.files[0];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // for drag and drop functionality
+  const handleDragOver = (event: any) => {
+    event.preventDefault();
+  };
+
+  const handleDrop = (event: any) => {
+    event.preventDefault();
+    event.target.files = event.dataTransfer.files;
+    handlePDFFile(event);
+  };
+  const handlePDFFile = (event: any) => {
+    event.preventDefault();
+    console.log(event);
+    let selectedFile = event.target.files && event.target.files[0];
     // if the person has even selected a file
     if (selectedFile) {
       if (selectedFile && fileType.includes(selectedFile.type)) {
         let reader = new FileReader();
         reader.readAsDataURL(selectedFile);
-        reader.onloadend = (e: any) => {
-          setPdfFile(e.target.result);
+        reader.onloadend = (event: any) => {
+          setPdfFile(event.target.result);
           setPdfFileError("");
         };
 
@@ -53,13 +65,13 @@ export const ChatbotPage = () => {
           })
         );
 
-        axios
-          .post(
-            "http://127.0.0.1:8000/api/chatbot/uploadTrainingData",
-            formData
-          )
-          .then((response) => {
-            console.log("File uploaded successfully:", response.data.filename);
+        fetch("http://127.0.0.1:8000/api/chatbot/uploadTrainingData", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("File uploaded successfully:", data.filename);
           })
           .catch((error) => {
             console.error("Error uploading file:", error);
@@ -84,7 +96,6 @@ export const ChatbotPage = () => {
       setPdfFileError("Please select your file.");
     }
   };
-
   return (
     <>
       <div>
@@ -105,8 +116,11 @@ export const ChatbotPage = () => {
           <div className="font-work-sans font-semibold text-xl md:text-3xl mb-1 mr-[216px] md:mr-[460px]">
             PDF File
           </div>
-          <FileUploader handlePDFFile={handlePDFFile} />
-
+          <FileUploader
+            handlePDFFile={handlePDFFile}
+            handleDragOver={handleDragOver}
+            handleDrop={handleDrop}
+          />
           {/* display selected file with option to remove and choose another */}
           {selectedFile && (
             <div className="mt-[10px] ml-[25px] file-preview flex">
@@ -121,14 +135,16 @@ export const ChatbotPage = () => {
                 <button
                   style={{ borderRadius: "50%" }}
                   className=" text-white text-center bg-red-500 w-6 h-6 absolute right-[20px] top-1/2 transform -translate-y-1/2 flex items-center justify-center file-preview__item__del"
-                  onClick={() => setSelectedFile(null)}
+                  onClick={() => {
+                    setSelectedFile(null);
+                    setPdfFile(null);
+                  }}
                 >
                   x
                 </button>
               </div>
             </div>
           )}
-
           <button
             type="button"
             style={{ transition: "all .3s cubic-bezier(0,0,.5,1)" }}
@@ -149,7 +165,6 @@ export const ChatbotPage = () => {
         </div>
 
         <br></br>
-
         <div className="flex flex-col">
           <div className="font-work-sans font-semibold text-[30px] flex w-auto mt-[50px] ml-[215px]">
             Page Preview
@@ -157,7 +172,7 @@ export const ChatbotPage = () => {
           <div className="w-[1000px] h-[800px] bg-[#e4e4e4] flex justify-center items-center overflow-y-auto mx-auto px-4 my-[20px] pdf-container">
             {viewPdf && (
               <>
-                <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+                <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.8.162/build/pdf.worker.min.js">
                   <Viewer
                     fileUrl={viewPdf}
                     plugins={[defaultLayoutPluginInstance]}
@@ -170,9 +185,15 @@ export const ChatbotPage = () => {
             type="button"
             style={{ transition: "all .3s cubic-bezier(0,0,.5,1)" }}
             className="text-white bg-brand-persian-green focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center w-[80px] md:w-[100px] ml-[215px] mb-[50px] confirm_btn"
+            onClick={() => setIsModalOpen(true)}
           >
             Confirm
           </button>
+          {isModalOpen && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+              <ChatbotTraining setIsModalOpen={setIsModalOpen} />
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -16,9 +16,10 @@
     "axios": "^1.4.0",
     "flowbite": "^1.7.0",
     "flowbite-react": "^0.4.10",
-    "pdfjs-dist": "^3.4.120",
+    "pdfjs-dist": "^3.8.162",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-file-icon": "^1.3.0",
     "react-hook-form": "^7.45.1",
     "react-hot-toast": "^2.4.1",
@@ -33,12 +34,9 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "@types/react-file-icon": "^1.0.1",
     "@types/react-modal": "^3.16.0",
-=======
     "@types/react-router-dom": "^5.3.3",
->>>>>>> 1388e9d822db1eb3b06f3e27abc58a2558347bfb
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "eslint": "^8.0.1",
     "eslint-plugin-react": "^7.31.11"

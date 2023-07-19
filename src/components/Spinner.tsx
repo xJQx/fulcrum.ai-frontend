@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 
-const Spinner = () => {
+type SpinnerProps = {
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false); //modal is originally closed, only opens after spinner has stopped spinning
 
@@ -10,7 +14,8 @@ const Spinner = () => {
     const timeoutId = setTimeout(() => {
       setIsLoading(false);
       setIsOpen(true);
-    }, 30000);
+      
+    }, 5000);
     // cleanup function
     return () => {
       clearTimeout(timeoutId);
@@ -29,7 +34,7 @@ const Spinner = () => {
           <div role="status">
             <svg
               aria-hidden="true"
-              className="inline w-16 h-16 mr-2 text-gray-200 animate-spin fill-blue-600"
+              className="inline w-16 h-16 mr-2 text-gray-200 animate-spin fill-brand-sunglow"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -53,8 +58,8 @@ const Spinner = () => {
         isOpen={isOpen}
         onRequestClose={closeModal}
         contentLabel="Chatbot Created Modal"
-        className="bg-white border border-gray-200 w-[650px] h-[376px] rounded-lg shadow-lg block mx-auto mb-[50px]"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+        className="bg-white outline outline-brand-sunglow shadow-md w-[650px] h-[376px] rounded-lg block mx-auto mb-[50px] relative"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center pointer-events-none"
       >
         <div className="flex flex-col items-center justify-between p-[34px]">
           <div className="mb-4">
@@ -74,10 +79,10 @@ const Spinner = () => {
 
         {/* <!-- Bottom Section --> */}
         {/* <div className="bg-brand-gunmetal h-[100px] mt-6 mx-auto rounded flex flex-grow"></div> */}
-        <div className="bg-brand-gunmetal h-[100px] mx-auto rounded-bl-lg rounded-br-lg flex justify-center items-center">
+        <div className="bg-brand-gunmetal w-full h-[100px] mx-auto rounded-b-lg flex justify-center items-center absolute bottom-0">
           <button
             type="button"
-            className="text-white uppercase bg-brand-persian-green hover:bg-brand-sunglow font-work-sans font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 "
+            className="text-white uppercase bg-brand-persian-green hover:bg-brand-sunglow font-work-sans font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 pointer-events-auto"
           >
             Start chat
           </button>
