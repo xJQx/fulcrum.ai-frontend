@@ -42,7 +42,6 @@ export const ChatbotPage = () => {
   };
   const handlePDFFile = (event: any) => {
     event.preventDefault();
-    console.log(event);
     let selectedFile = event.target.files && event.target.files[0];
     // if the person has even selected a file
     if (selectedFile) {

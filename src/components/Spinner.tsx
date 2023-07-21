@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import { useNavigate } from "react-router-dom";
 
 type SpinnerProps = {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -9,12 +10,17 @@ const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false); //modal is originally closed, only opens after spinner has stopped spinning
 
+  const navigate = useNavigate();
+
+  const navigateToChatPage = () => {
+    navigate("/chat");
+  };
+
   useEffect(() => {
     // when timeout happens/30 milisecs is up, stop the spinner and open the modal
     const timeoutId = setTimeout(() => {
       setIsLoading(false);
       setIsOpen(true);
-      
     }, 5000);
     // cleanup function
     return () => {
@@ -83,6 +89,7 @@ const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
           <button
             type="button"
             className="text-white uppercase bg-brand-persian-green hover:bg-brand-sunglow font-work-sans font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 pointer-events-auto"
+            onClick={navigateToChatPage}
           >
             Start chat
           </button>
