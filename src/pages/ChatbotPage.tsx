@@ -111,88 +111,93 @@ export const ChatbotPage = () => {
       {/* PDF file drag and drop here */}
 
       <div>
-        <div className="flex flex-col justify-center items-center mt-[30px] md:mt-[50px]">
-          <div className="font-work-sans font-semibold text-xl md:text-3xl mb-1 mr-[216px] md:mr-[460px]">
-            PDF File
-          </div>
-          <FileUploader
-            handlePDFFile={handlePDFFile}
-            handleDragOver={handleDragOver}
-            handleDrop={handleDrop}
-          />
-          {/* display selected file with option to remove and choose another */}
-          {selectedFile && (
-            <div className="mt-[10px] ml-[25px] file-preview flex">
-              <div className="flex mb-[10px] p-[15px] rounded-md bg-[#F2F2F2] md:w-[600px] relative file-preview__item">
-                <div className="w-[50px] h-[50px] flex items-center pr-[15px]">
-                  <FileIcon extension="pdf" {...defaultStyles.pdf} />
+        <div className="flex flex-col justify-center items-center mt-[60px] md:mt-[80px]">
+          <div className="relative">
+            <div className="font-work-sans font-semibold text-xl md:text-3xl md:mb-1 absolute top-[-25px] md:top-[-40px]">
+              PDF File
+            </div>
+            <FileUploader
+              handlePDFFile={handlePDFFile}
+              handleDragOver={handleDragOver}
+              handleDrop={handleDrop}
+            />
+            {/* display selected file with option to remove and choose another */}
+            {selectedFile && (
+              <div className="mt-[10px] file-preview absolute">
+                <div className="flex mb-[10px] p-[15px] rounded-md bg-[#F2F2F2] w-[300px] sm:w-[450px] md:w-[600px] relative file-preview__item">
+                  <div className="w-[45px] h-[45px] md:w-[50px] md:h-[50px] flex items-center pr-[15px]">
+                    <FileIcon extension="pdf" {...defaultStyles.pdf} />
+                  </div>
+                  <div className="text-[14px] md:text-[16px] flex flex-col justify-center file-preview__item__info">
+                    <p>{selectedFile.name}</p>
+                    <p>{selectedFile.size}</p>
+                  </div>
+                  <button
+                    style={{ borderRadius: "50%", top: "50%", transform: "translateY(-50%)" }}
+                    className=" text-white text-center text-[14px] md:text-[16px] bg-red-500 w-5 h-5 md:w-6 md:h-6 absolute right-[15px] md:right-[20px] transform -translate-x-1/2 flex items-center justify-center file-preview__item__del"
+                    onClick={() => {
+                      setSelectedFile(null);
+                      setPdfFile(null);
+                    }}
+                  >
+                    x
+                  </button>
                 </div>
-                <div className="file-preview__item__info">
-                  <p>{selectedFile.name}</p>
-                  <p>{selectedFile.size}</p>
-                </div>
-                <button
-                  style={{ borderRadius: "50%" }}
-                  className=" text-white text-center bg-red-500 w-6 h-6 absolute right-[20px] top-1/2 transform -translate-y-1/2 flex items-center justify-center file-preview__item__del"
-                  onClick={() => {
-                    setSelectedFile(null);
-                    setPdfFile(null);
-                  }}
-                >
-                  x
-                </button>
               </div>
-            </div>
-          )}
-          <button
-            type="button"
-            style={{ transition: "all .3s cubic-bezier(0,0,.5,1)" }}
-            className=" w-[80px] md:w-[100px] mr-[216px] md:mr-[475px] my-[10px] mb-[50px] text-center font-work-sans text-[#193338] bg-brand-sunglow font-medium rounded-lg text-sm px-3 py-2.5 uploadBtn"
-            onClick={(e) => {
-              // handlePDFFile(e);
-              handlePDFFileViewer(e);
-            }}
-          >
-            Upload
-          </button>
+            )}
+            <button
+              type="button"
+              style={{ transition: "all .3s cubic-bezier(0,0,.5,1)" }}
+              className={` w-[70px] md:w-[100px] md:my-[10px] mb-[150px] text-center font-work-sans text-[#193338] bg-brand-sunglow font-medium rounded-lg text-xs md:text-sm px-3 py-2.5 relative uploadBtn ${
+                selectedFile ? "top-[100px]" : ""
+              }`}
+              onClick={(e) => {
+                // handlePDFFile(e);
+                handlePDFFileViewer(e);
+              }}
+            >
+              Upload
+            </button>
 
-          {pdfFileError && (
-            <div className="error-msg text-red-500 text-[16px]">
-              {pdfFileError}
-            </div>
-          )}
-        </div>
-
-        <br></br>
-        <div className="flex flex-col">
-          <div className="font-work-sans font-semibold text-[30px] flex w-auto mt-[50px] ml-[215px]">
-            Page Preview
-          </div>
-          <div className="w-[1000px] h-[800px] bg-[#e4e4e4] flex justify-center items-center overflow-y-auto mx-auto px-4 my-[20px] pdf-container">
-            {viewPdf && (
-              <>
-                <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.8.162/build/pdf.worker.min.js">
-                  <Viewer
-                    fileUrl={viewPdf}
-                    plugins={[defaultLayoutPluginInstance]}
-                  />
-                </Worker>
-              </>
+            {pdfFileError && (
+              <div className="error-msg text-red-500 text-[14px] md:text-[16px] absolute top-[100%] mt-[-145px] md:mt-0">
+                {pdfFileError}
+              </div>
             )}
           </div>
-          <button
-            type="button"
-            style={{ transition: "all .3s cubic-bezier(0,0,.5,1)" }}
-            className="text-white bg-brand-persian-green focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center w-[80px] md:w-[100px] ml-[215px] mb-[50px] confirm_btn"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Confirm
-          </button>
-          {isModalOpen && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-              <ChatbotTraining setIsModalOpen={setIsModalOpen} />
+        </div>
+        <br></br>
+        <div className="flex flex-col items-center md:mt-[140px]">
+          <div className="relative">
+            <div className="font-work-sans font-semibold text-xl md:text-3xl flex w-auto absolute top-[-20px] md:top-[-30px]">
+              Page Preview
             </div>
-          )}
+            <div className="w-[330px] h-[600px] sm:w-[580px] sm:h-[600px] md:w-[990px] md:h-[800px] bg-[#e4e4e4] overflow-y-auto mx-auto px-4 my-[20px] pdf-container">
+              {viewPdf && (
+                <>
+                  <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.8.162/build/pdf.worker.min.js">
+                    <Viewer
+                      fileUrl={viewPdf}
+                      plugins={[defaultLayoutPluginInstance]}
+                    />
+                  </Worker>
+                </>
+              )}
+            </div>
+            <button
+              type="button"
+              style={{ transition: "all .3s cubic-bezier(0,0,.5,1)" }}
+              className="text-white bg-brand-persian-green focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5 md:px-5 md:py-2.5 text-center w-[80px] md:w-[100px] mb-[50px] confirm_btn"
+              onClick={() => setIsModalOpen(true)}
+            >
+              Confirm
+            </button>
+            {isModalOpen && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                <ChatbotTraining setIsModalOpen={setIsModalOpen} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>

@@ -40,7 +40,7 @@ const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
           <div role="status">
             <svg
               aria-hidden="true"
-              className="inline w-16 h-16 mr-2 text-gray-200 animate-spin fill-brand-sunglow"
+              className="inline w-11 h-11 md:w-16 md:h-16 mr-2 text-gray-200 animate-spin fill-brand-sunglow"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -64,31 +64,29 @@ const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
         isOpen={isOpen}
         onRequestClose={closeModal}
         contentLabel="Chatbot Created Modal"
-        className="bg-white outline outline-brand-sunglow shadow-md w-[650px] h-[376px] rounded-lg block mx-auto mb-[50px] relative"
+        className="bg-white outline outline-brand-sunglow shadow-md w-[340px] h-[210px] md:w-[650px] md:h-[376px] rounded-lg block mx-auto mb-[50px] relative"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center pointer-events-none"
       >
-        <div className="flex flex-col items-center justify-between p-[34px]">
-          <div className="mb-4">
+        <div className="flex flex-col items-center justify-between p-[20px] md:p-[34px]">
+          <div className="mb-2 md:mb-4">
             <img
               src="assets/chatbot_logo.png"
               alt="chatbot"
-              height="125"
-              width="125"
+              className = "h-[70px] w-[70px] md:h-[125px] md:w-[125px]"
             />
           </div>
           <div className="space-y-2 text-center ">
-            <p className="text-lg text-black w-[400px]">
+            <p className="text-black text-xs w-[280px] md:text-lg md:w-[400px]">
               Your chatbot has been created and is ready to chat.
             </p>
           </div>
         </div>
 
         {/* <!-- Bottom Section --> */}
-        {/* <div className="bg-brand-gunmetal h-[100px] mt-6 mx-auto rounded flex flex-grow"></div> */}
-        <div className="bg-brand-gunmetal w-full h-[100px] mx-auto rounded-b-lg flex justify-center items-center absolute bottom-0">
+        <div className="bg-brand-gunmetal w-full h-[60px] md:h-[100px] mx-auto rounded-b-lg flex justify-center items-center absolute bottom-0">
           <button
             type="button"
-            className="text-white uppercase bg-brand-persian-green hover:bg-brand-sunglow font-work-sans font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 pointer-events-auto"
+            className="text-white uppercase bg-brand-persian-green hover:bg-brand-sunglow font-work-sans font-medium rounded-full text-[10px] md:text-sm px-2.5 py-2 md:px-5 md:py-2.5 text-center md:mr-2 md:mb-2 pointer-events-auto"
             onClick={navigateToChatPage}
           >
             Start chat
