@@ -3,7 +3,7 @@ import FileUploadIcon from "./FileUploadIcon";
 import { FileIcon, defaultStyles } from "react-file-icon";
 
 const FileUploader = (props: any) => {
-  const { handlePDFFile, handleDragOver, handleDrop } = props;
+  const { handlePDFFile, handleDragOver, handleDrop,handleRemove,fileInputRef } = props;
 
   useEffect(() => {
     const preventDefault = (event: any) => {
@@ -53,6 +53,7 @@ const FileUploader = (props: any) => {
             </span>
             <input
               type="file"
+              ref={fileInputRef}
               name="file_upload"
               className="hidden"
               onChange={(event) => {

@@ -1,6 +1,6 @@
 import FileUploader from "components/FileUploader";
 import { TextLinearGradient } from "components/Typography/TextLinearGradient";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Viewer } from "@react-pdf-viewer/core"; // install this library
 // Plugins
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout"; // install this library
@@ -29,6 +29,17 @@ export const ChatbotPage = () => {
   const fileType = ["application/pdf"];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // for re-uploading same file if necessary
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  
+  const handleRemove = () => {
+    setSelectedFile(null);
+    setPdfFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Reset the value of the file input element
+    }
+  };
 
   // for drag and drop functionality
   const handleDragOver = (event: any) => {
@@ -120,6 +131,8 @@ export const ChatbotPage = () => {
               handlePDFFile={handlePDFFile}
               handleDragOver={handleDragOver}
               handleDrop={handleDrop}
+              handleRemove={handleRemove}
+              fileInputRef={fileInputRef}
             />
             {/* display selected file with option to remove and choose another */}
             {selectedFile && (
@@ -130,15 +143,16 @@ export const ChatbotPage = () => {
                   </div>
                   <div className="text-[14px] md:text-[16px] flex flex-col justify-center file-preview__item__info">
                     <p>{selectedFile.name}</p>
-                    <p>{selectedFile.size}</p>
+                    <p>{selectedFile.size}B</p>
                   </div>
                   <button
-                    style={{ borderRadius: "50%", top: "50%", transform: "translateY(-50%)" }}
-                    className=" text-white text-center text-[14px] md:text-[16px] bg-red-500 w-5 h-5 md:w-6 md:h-6 absolute right-[15px] md:right-[20px] transform -translate-x-1/2 flex items-center justify-center file-preview__item__del"
-                    onClick={() => {
-                      setSelectedFile(null);
-                      setPdfFile(null);
+                    style={{
+                      borderRadius: "50%",
+                      top: "50%",
+                      transform: "translateY(-50%)",
                     }}
+                    className=" text-white text-center text-[14px] md:text-[16px] bg-red-500 w-5 h-5 md:w-6 md:h-6 absolute right-[15px] md:right-[20px] transform -translate-x-1/2 flex items-center justify-center file-preview__item__del"
+                    onClick={handleRemove}
                   >
                     x
                   </button>
