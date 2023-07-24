@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import "./Modal.styles.css";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";

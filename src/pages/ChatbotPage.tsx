@@ -32,10 +32,11 @@ export const ChatbotPage = () => {
 
   // for re-uploading same file if necessary
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  
+
   const handleRemove = () => {
     setSelectedFile(null);
     setPdfFile(null);
+    setViewPdf(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = ""; // Reset the value of the file input element
     }
@@ -101,11 +102,28 @@ export const ChatbotPage = () => {
     e.preventDefault();
     if (pdfFile !== null) {
       setViewPdf(pdfFile);
+      setUploadClicked(true);
+      setTimeout(() => {
+        scrollToPreview();
+      }, 0);
     } else {
       setViewPdf(null);
       setPdfFileError("Please select your file.");
     }
   };
+
+  const pdfContainerRef = useRef<HTMLDivElement>(null);
+
+  //function to auto-scroll to page preview
+  const scrollToPreview = () => {
+    if (pdfContainerRef.current) {
+      pdfContainerRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // hiding of the page preview until upload button is clicked
+  const [uploadClicked, setUploadClicked] = useState(false);
+
   return (
     <>
       <div>
@@ -181,37 +199,43 @@ export const ChatbotPage = () => {
           </div>
         </div>
         <br></br>
+
         <div className="flex flex-col items-center md:mt-[140px]">
-          <div className="relative">
-            <div className="font-work-sans font-semibold text-xl md:text-3xl flex w-auto absolute top-[-20px] md:top-[-30px]">
-              Page Preview
-            </div>
-            <div className="w-[330px] h-[600px] sm:w-[580px] sm:h-[600px] md:w-[990px] md:h-[800px] bg-[#e4e4e4] overflow-y-auto mx-auto px-4 my-[20px] pdf-container">
-              {viewPdf && (
-                <>
-                  <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.8.162/build/pdf.worker.min.js">
-                    <Viewer
-                      fileUrl={viewPdf}
-                      plugins={[defaultLayoutPluginInstance]}
-                    />
-                  </Worker>
-                </>
+          {uploadClicked && pdfFile && (
+            <div className="relative">
+              <div className="font-work-sans font-semibold text-xl md:text-3xl flex w-auto absolute top-[-20px] md:top-[-30px]">
+                Page Preview
+              </div>
+              <div
+                ref={pdfContainerRef}
+                className="w-[330px] h-[600px] sm:w-[580px] sm:h-[600px] md:w-[990px] md:h-[800px] bg-[#e4e4e4] overflow-y-auto mx-auto px-4 my-[20px] pdf-container"
+              >
+                {viewPdf && (
+                  <>
+                    <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.8.162/build/pdf.worker.min.js">
+                      <Viewer
+                        fileUrl={viewPdf}
+                        plugins={[defaultLayoutPluginInstance]}
+                      />
+                    </Worker>
+                  </>
+                )}
+              </div>
+              <button
+                type="button"
+                style={{ transition: "all .3s cubic-bezier(0,0,.5,1)" }}
+                className="text-white bg-brand-persian-green focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5 md:px-5 md:py-2.5 text-center w-[80px] md:w-[100px] mb-[50px] confirm_btn"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Confirm
+              </button>
+              {isModalOpen && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                  <ChatbotTraining setIsModalOpen={setIsModalOpen} />
+                </div>
               )}
             </div>
-            <button
-              type="button"
-              style={{ transition: "all .3s cubic-bezier(0,0,.5,1)" }}
-              className="text-white bg-brand-persian-green focus:outline-none font-medium rounded-lg text-sm px-3 py-1.5 md:px-5 md:py-2.5 text-center w-[80px] md:w-[100px] mb-[50px] confirm_btn"
-              onClick={() => setIsModalOpen(true)}
-            >
-              Confirm
-            </button>
-            {isModalOpen && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                <ChatbotTraining setIsModalOpen={setIsModalOpen} />
-              </div>
-            )}
-          </div>
+          )}
         </div>
       </div>
     </>
