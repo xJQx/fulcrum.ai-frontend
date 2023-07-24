@@ -13,13 +13,6 @@ const ChatPage = () => {
 
   return (
     <div className="h-screen flex ">
-      <aside className="w-[250px] p-[10px] bg-[#202123] hidden md:block sidebar">
-        {/* Add new chatbot */}
-        <div className="border border-white border-1 p-[12px] rounded-md text-left text-white mx-1 cursor-pointer hover:bg-opacity-10">
-          <span className="px-[6px] pr-[12px] text-white">+</span>
-          New Chatbot
-        </div>
-      </aside>
       <div className="bg-[#343541] h-full flex flex-col flex-1 chatbot w-4/6">
         {/* Chat messages section */}
         <div className="w-full user">
