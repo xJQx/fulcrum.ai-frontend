@@ -1,5 +1,6 @@
 import { Button } from "components/Button";
-import { ChatbotCard, ChatbotCardProps } from "components/ChatbotCard";
+import { ChatbotCard } from "components/ChatbotCard";
+import { chatbotsData } from "mockData/chatbotsData";
 import React, { useState } from "react";
 
 export const DashboardPage = () => {
@@ -24,7 +25,7 @@ export const DashboardPage = () => {
       {/* Chatbot Cards */}
       <section className="mb-[80px] px-[32px] flex flex-col justify-center items-center">
         <div className="flex flex-wrap justify-center items-center gap-5 max-w-screen-lg">
-          {chatbotCardData.map(
+          {chatbotsData.map(
             (chatbot, index) =>
               index < numberOfChatbotsVisible && (
                 <ChatbotCard key={chatbot.name} {...chatbot} />
@@ -44,7 +45,7 @@ export const DashboardPage = () => {
           )}
 
           {/* View More Button */}
-          {numberOfChatbotsVisible < chatbotCardData.length && (
+          {numberOfChatbotsVisible < chatbotsData.length && (
             <Button className="w-[40%] text-center" onClick={viewMoreChatbots}>
               View More
             </Button>
@@ -54,96 +55,3 @@ export const DashboardPage = () => {
     </>
   );
 };
-
-const chatbotCardData: Array<ChatbotCardProps> = [
-  {
-    chatbotId: "1",
-    name: "StudyGPT",
-    trainedData: "study-note.pdf",
-    parameters: {
-      personality: "Methodological",
-      language: "English",
-    },
-    usage: {
-      currentApiRequests: 5,
-      maxApiRequests: 365,
-      timeUsed: 30,
-      totalTime: 9999,
-    },
-  },
-  {
-    chatbotId: "2",
-    name: "StudyGPT v2",
-    trainedData: "study-note.pdf",
-    parameters: {
-      personality: "Methodological",
-      language: "Chinese",
-    },
-    usage: {
-      currentApiRequests: 53,
-      maxApiRequests: 365,
-      timeUsed: 1537,
-      totalTime: 9999,
-    },
-  },
-  {
-    chatbotId: "3",
-    name: "StudyGPT v3",
-    trainedData: "study-note.pdf",
-    parameters: {
-      personality: "Methodological",
-      language: "Japanese",
-    },
-    usage: {
-      currentApiRequests: 158,
-      maxApiRequests: 365,
-      timeUsed: 5555,
-      totalTime: 9999,
-    },
-  },
-  {
-    chatbotId: "4",
-    name: "StudyGPT v4",
-    trainedData: "study-note.pdf",
-    parameters: {
-      personality: "Expert",
-      language: "English",
-    },
-    usage: {
-      currentApiRequests: 200,
-      maxApiRequests: 365,
-      timeUsed: 8888,
-      totalTime: 9999,
-    },
-  },
-  {
-    chatbotId: "5",
-    name: "StudyGPT v5",
-    trainedData: "study-note.pdf",
-    parameters: {
-      personality: "Methodological",
-      language: "Japanese",
-    },
-    usage: {
-      currentApiRequests: 158,
-      maxApiRequests: 365,
-      timeUsed: 5555,
-      totalTime: 9999,
-    },
-  },
-  {
-    chatbotId: "6",
-    name: "StudyGPT v6",
-    trainedData: "study-note.pdf",
-    parameters: {
-      personality: "Expert",
-      language: "English",
-    },
-    usage: {
-      currentApiRequests: 200,
-      maxApiRequests: 365,
-      timeUsed: 8888,
-      totalTime: 9999,
-    },
-  },
-];

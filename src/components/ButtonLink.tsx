@@ -5,14 +5,17 @@ interface ButtonLinkProps {
   href: string;
   children: React.ReactNode;
   className?: string;
+  variant?: "solid" | "ghost";
 }
 
 export const ButtonLink = (props: ButtonLinkProps) => {
-  const { href, children, className } = props;
+  const { href, children, variant, className } = props;
 
   return (
     <a href={href}>
-      <Button className={className}>{children}</Button>
+      <Button className={className} variant={variant}>
+        {children}
+      </Button>
     </a>
   );
 };
