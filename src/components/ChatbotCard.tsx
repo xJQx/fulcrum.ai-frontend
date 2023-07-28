@@ -1,24 +1,9 @@
 import React from "react";
-import { Button } from "./Button";
-import toast from "react-hot-toast";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { ButtonLink } from "./ButtonLink";
+import { ChatbotSchema } from "schemas/chatbot";
 
-export interface ChatbotCardProps {
-  chatbotId: string;
-  name: string;
-  trainedData: string;
-  parameters: {
-    personality: string;
-    language: string;
-  };
-  usage: {
-    currentApiRequests: number;
-    maxApiRequests: number;
-    timeUsed: number;
-    totalTime: number;
-  };
-}
+export type ChatbotCardProps = ChatbotSchema;
 
 export const ChatbotCard = (props: ChatbotCardProps) => {
   const { chatbotId, name, trainedData, parameters, usage } = props;
@@ -87,12 +72,9 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
 
         {/* Button */}
         <section className="mt-3 flex gap-2 justify-end">
-          <Button
-            variant="ghost"
-            onClick={() => toast("Edit chatbot feature coming soon...")}
-          >
+          <ButtonLink href={`chatbot/edit/${chatbotId}`} variant="ghost">
             Edit
-          </Button>
+          </ButtonLink>
           <ButtonLink href={`chat/${chatbotId}`}>Run</ButtonLink>
         </section>
       </div>

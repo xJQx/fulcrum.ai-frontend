@@ -35,7 +35,12 @@ export const Hero = () => {
 
       {/* Phone Preview */}
       <div className="hidden lg:block min-w-[350px]">
-        <img src="assets/phone-preview.png" alt="phone preview" />
+        <img
+          src="assets/phone_preview.jpeg"
+          alt="phone preview"
+          height="500"
+          width="400"
+        />
       </div>
     </div>
   );
