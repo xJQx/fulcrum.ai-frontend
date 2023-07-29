@@ -53,10 +53,10 @@ export const ChatbotPage = () => {
     handlePDFFile(event);
   };
 
-  const headers = {
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVzdGhlcnRlb2dla3dhdEBnbWFpbC5jb20iLCJpZCI6IjY0YzRlYTdjZGVkYWYyMDk5ZjQ5Y2Y2MyIsIm5hbWUiOiJlc3RoZXIiLCJyZWdpc3RlcmVkIjp0cnVlLCJleHAiOjE2OTA2Mjc1ODR9.SpVSVzRlyoumdabfgUgrtkTwEzCBsUZ1TRVeCBo3IrU",
-  };
+  // const headers = {
+  //   Authorization:
+  //     "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVzdGhlcnRlb2dla3dhdEBnbWFpbC5jb20iLCJpZCI6IjY0YzRlYTdjZGVkYWYyMDk5ZjQ5Y2Y2MyIsIm5hbWUiOiJlc3RoZXIiLCJyZWdpc3RlcmVkIjp0cnVlLCJleHAiOjE2OTA2Mjc1ODR9.SpVSVzRlyoumdabfgUgrtkTwEzCBsUZ1TRVeCBo3IrU",
+  // };
 
   const handlePDFFile = async (event: any) => {
     event.preventDefault();
@@ -74,18 +74,13 @@ export const ChatbotPage = () => {
         // Call the API to upload the training data
         const formData = new FormData();
         formData.append("file", selectedFile);
-        formData.append(
-          "req",
-          JSON.stringify({
-            username: "estherteogekwat@gmail.com",
-            chatbotID: "chatbot1",
-          })
-        );
+        formData.append("email", "estherteogekwat@gmail.com");
+        formData.append("chatbotID", "chatbot1");
 
         await fetch("http://localhost:8000/api/chatbot/uploadTrainingData", {
           // credentials: "include",
           method: "POST",
-          headers: headers,
+          // headers: headers,
           body: formData,
         })
           .then((response) => response.json())

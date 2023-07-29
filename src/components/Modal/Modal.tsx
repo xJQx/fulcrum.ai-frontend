@@ -38,14 +38,21 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     onPostQns();
     try {
-      const response = await fetch(endpointURL, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "same-origin",
-      });
+      // always need to use FormData for multi-part form 
+      const _data = new FormData();
+
+      _data.append("name", data.name);
+      _data.append("email", data.email);
+      _data.append("message", data.message);
+
+      const response = await fetch(endpointURL,{
+        method: 'POST',
+        body: _data,
+      }
+       );
+      const jsonData = await response.json();
+
+      console.log(jsonData);
 
       if (!response.ok) {
         throw new Error("Failed to submit the form.");
