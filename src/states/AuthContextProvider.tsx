@@ -5,6 +5,7 @@ import React, {
   SetStateAction,
   useEffect,
 } from "react";
+import { LocalStorageEnum } from "types/enums";
 
 const DEFAULT_AUTH_CONTEXT = {
   isLoggedIn: false,
@@ -18,7 +19,7 @@ export const AuthContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
-    const authStateJson = localStorage.getItem("authState");
+    const authStateJson = localStorage.getItem(LocalStorageEnum.auth_state);
     if (authStateJson) {
       const authState = JSON.parse(authStateJson);
       return authState ? authState.isLoggedIn : false;
@@ -29,7 +30,7 @@ export const AuthContextProvider = ({
   useEffect(() => {
     // Save the state to local storage
     localStorage.setItem(
-      "authState",
+      LocalStorageEnum.auth_state,
       JSON.stringify({ isLoggedIn: isLoggedIn })
     );
   }, [isLoggedIn]);

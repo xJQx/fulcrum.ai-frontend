@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { ButtonLink } from "./ButtonLink";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
-import { ChatbotSchema } from "schemas/chatbot";
+import { ChatbotDisplaySchema } from "schemas/chatbot";
 import FileUploader from "./FileUploader";
 import { Button } from "./Button";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
 
-type ChatbotEditCardProps = ChatbotSchema;
+type ChatbotEditCardProps = ChatbotDisplaySchema;
 
 export const ChatbotEditCard = (props: ChatbotEditCardProps) => {
   const { chatbotId, name, trainedData, parameters, createdAt, updatedAt } =

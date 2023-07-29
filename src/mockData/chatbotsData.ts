@@ -1,6 +1,6 @@
-import { ChatbotSchema } from "schemas/chatbot";
+import { ChatbotDisplaySchema } from "schemas/chatbot";
 
-export const chatbotsData: Array<ChatbotSchema> = [
+export const chatbotsData: Array<ChatbotDisplaySchema> = [
   {
     chatbotId: "1",
     name: "StudyGPT",

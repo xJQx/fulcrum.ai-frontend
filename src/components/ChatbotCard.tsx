@@ -1,9 +1,9 @@
 import React from "react";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { ButtonLink } from "./ButtonLink";
-import { ChatbotSchema } from "schemas/chatbot";
+import { ChatbotDisplaySchema } from "schemas/chatbot";
 
-export type ChatbotCardProps = ChatbotSchema;
+export type ChatbotCardProps = ChatbotDisplaySchema;
 
 export const ChatbotCard = (props: ChatbotCardProps) => {
   const { chatbotId, name, trainedData, parameters, usage } = props;
