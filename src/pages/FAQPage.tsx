@@ -51,7 +51,7 @@ const FaQ: Array<{ icon: JSX.Element; question: string; answer: string }> = [
 export const FAQPage = () => {
   return (
     <>
-      <section className="bg-brand-gunmetal pt-[30px] md:pt-[5px] pb-[30px] md:pt-[10px] px-[48px] text-white flex flex-row justify-center gap-6">
+      <section className="bg-brand-gunmetal pt-[30px] pb-[30px] md:pt-[10px] px-[48px] text-white flex flex-row justify-center gap-6">
         <div className="font-work-sans font-bold text-[30px] md:text-[40px] leading-tight text-center md:text-center above">
           Ask Us Anything
           <div className=" text-brand-sunglow font-source-sans-pro font-semibold max-w-[425px] text-[15px] pt-[15px] pb-[30px] text-center md:text-center below">

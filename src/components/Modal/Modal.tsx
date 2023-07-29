@@ -15,6 +15,7 @@ interface ModalProps {
   onPostQns: () => void;
 }
 
+// Get in touch Modal
 export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
   const inputStyles =
     " mt-3 md:mt-5 w-full rounded-lg bg-white px-2 py-1 md:px-5 md:py-3 placeholder-grey";
@@ -32,34 +33,31 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
     navigate("/");
   };
 
-  // const onSubmit = async (e: any) => {
-  //   const isValid = await trigger();
-  //   if (!isValid) {
-  //     e.preventDefault();
-  //   } else {
-  //     navigateHome;
-  //     onPostQns();
-  //     reset();
-  //   }
-  // };
+  const endpointURL = "http://127.0.0.1:8000/faq";
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     onPostQns();
-
-    const response = await fetch(
-      "https://formsubmit.co/estherteogekwat@gmail.com",
-      {
+    try {
+      const response = await fetch(endpointURL, {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "same-origin",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit the form.");
       }
-    );
-    console.log(response.ok);
-    toast.success("Form is submitted sucessfully!");
-    reset();
+
+      console.log(response.ok);
+      toast.success("Form is submitted sucessfully!");
+      reset();
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while submitting the form.");
+    }
   };
 
   const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -94,7 +92,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
         className="modal__overlay"
       >
         <div
-          className=" p-[50px] rounded-xl justify-center items-center bg-[#F5F5F5] p-8 w-[300px] h-[400px] md:p-20 md:w-[600px] md:h-[600px] modal__box center_box"
+          className=" rounded-xl justify-center items-center bg-[#F5F5F5] p-8 w-[300px] h-[400px] md:p-20 md:w-[600px] md:h-[600px] modal__box center_box"
           onClick={stopPropagation}
         >
           <div className="font-work-sans font-bold text-[20px] md:text-[32px]">
@@ -105,12 +103,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
           </p>
           {/* Form input fields and Post a Qns Button */}
           <div className="justify-between gap-8 md:flex">
-            <form
-              // target="_blank"
-              onSubmit={handleSubmit(onSubmit)}
-              // action="https://formsubmit.co/bb76d2a06e034b25087a189ce33779ed"
-              // method="POST"
-            >
+            <form onSubmit={handleSubmit(onSubmit)}>
               <input
                 className={inputStyles}
                 type="text"
@@ -172,10 +165,6 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
                   id="button"
                   type="submit"
                   className="mt-3 md:mt-5 rounded-lg bg-brand-sunglow text-black text-[14px] md:text-[16px] px-10 py-1 md:px-20 md:py-3"
-                  // onClick={(e: any) => {
-                  //   onSubmit(e);
-                  //   notify();
-                  // }}
                 >
                   Post a Question
                 </button>
