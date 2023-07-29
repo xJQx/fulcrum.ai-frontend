@@ -9,19 +9,22 @@ import { NavbarDrawer } from "./NavbarDrawer";
 import { AuthContext } from "states/AuthContextProvider";
 import { Button } from "components/Button";
 import { useNavigate } from "react-router";
+import { serverBaseUrl } from "config/server";
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
 
-  const navbarItems: NavbarItemsProps["items"] = [
-    {
-      text: authContext.isLoggedIn ? "Dashboard" : "Demo",
-      href: authContext.isLoggedIn ? "/dashboard" : "/demo",
-    },
-    { text: "DOCS", href: "/docs" },
-    { text: "FAQ", href: "/faq" },
-  ];
+  const navbarItems: NavbarItemsProps["items"] = authContext.isLoggedIn
+    ? [
+        { text: "Dashboard", href: "/dashboard" },
+        { text: "DOCS", href: "/docs" },
+        { text: "FAQ", href: "/faq" },
+      ]
+    : [
+        { text: "DOCS", href: "/docs" },
+        { text: "FAQ", href: "/faq" },
+      ];
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -53,9 +56,9 @@ export const Navbar = () => {
       {/* Login/Logout Button */}
       <div className="hidden md:block">
         {authContext.isLoggedIn ? (
-          <div onClick={handleLogout}>
+          <a href={serverBaseUrl + "auth/logout"} onClick={handleLogout}>
             <Button className="cursor-pointer">Logout</Button>
-          </div>
+          </a>
         ) : (
           <ButtonLink href="login">Login</ButtonLink>
         )}
