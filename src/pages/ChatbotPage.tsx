@@ -52,7 +52,13 @@ export const ChatbotPage = () => {
     event.target.files = event.dataTransfer.files;
     handlePDFFile(event);
   };
-  const handlePDFFile = (event: any) => {
+
+  const headers = {
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVzdGhlcnRlb2dla3dhdEBnbWFpbC5jb20iLCJpZCI6IjY0YzRlYTdjZGVkYWYyMDk5ZjQ5Y2Y2MyIsIm5hbWUiOiJlc3RoZXIiLCJyZWdpc3RlcmVkIjp0cnVlLCJleHAiOjE2OTA2Mjc1ODR9.SpVSVzRlyoumdabfgUgrtkTwEzCBsUZ1TRVeCBo3IrU",
+  };
+
+  const handlePDFFile = async (event: any) => {
     event.preventDefault();
     let selectedFile = event.target.files && event.target.files[0];
     // if the person has even selected a file
@@ -71,13 +77,15 @@ export const ChatbotPage = () => {
         formData.append(
           "req",
           JSON.stringify({
-            username: "esther",
+            username: "estherteogekwat@gmail.com",
             chatbotID: "chatbot1",
           })
         );
 
-        fetch("http://127.0.0.1:8000/api/chatbot/uploadTrainingData", {
+        await fetch("http://localhost:8000/api/chatbot/uploadTrainingData", {
+          // credentials: "include",
           method: "POST",
+          headers: headers,
           body: formData,
         })
           .then((response) => response.json())

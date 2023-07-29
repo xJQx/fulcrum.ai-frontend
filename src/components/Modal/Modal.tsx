@@ -43,17 +43,6 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
   //   }
   // };
 
-  // const onSubmit = async (e: any) => {
-  //   console.log('submit');
-  //   const isValid = await trigger();
-  //   if (!isValid) {
-  //     e.preventDefault();
-  //     console.log(e);
-  //   } else {
-  //     onPostQns();
-  //   }
-  // };
-
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     onPostQns();
 

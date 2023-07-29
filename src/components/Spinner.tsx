@@ -9,6 +9,7 @@ type SpinnerProps = {
 const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false); //modal is originally closed, only opens after spinner has stopped spinning
+  const [endpointURL, setEndpointURL] = useState("");
 
   const navigate = useNavigate();
 
@@ -16,16 +17,55 @@ const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
     navigate("/chat");
   };
 
-  useEffect(() => {
-    // when timeout happens/30 milisecs is up, stop the spinner and open the modal
-    const timeoutId = setTimeout(() => {
-      setIsLoading(false);
-      setIsOpen(true);
-    }, 5000);
-    // cleanup function
-    return () => {
-      clearTimeout(timeoutId);
+  interface CreateChatbotRequest {
+    username: string;
+    chatbotID: string;
+  }
+
+  // call the create_chatbot endpoint
+  const createChatbot = async () => {
+    const endpoint = "http://localhost:8000/api/chatbot/createChatbot";
+    const requestBody: CreateChatbotRequest = {
+      username: "estherteogekwat@gmail.com",
+      chatbotID: "chatbot1",
     };
+    try {
+      const response = await fetch(
+        `${endpoint}?username=${requestBody.username}&chatbotID=${requestBody.chatbotID}`,
+        {
+          // credentials: "include",
+          method: "POST",
+          // headers: {
+          //   'Accept': 'application/json',
+          //   'Content-Type': 'application/json'
+          //   },
+          // body: JSON.stringify(requestBody),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not OK");
+      }
+      const responseData = await response.json();
+      return responseData;
+    } catch (error) {
+      console.error("Error calling createChatbot API:", error);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    createChatbot()
+      .then((response) => {
+        const { endpointURL } = response;
+        setEndpointURL(endpointURL);
+        setIsLoading(false);
+        setIsOpen(true);
+      })
+      .catch((error) => {
+        console.error("Error creating chatbot:", error);
+        // setIsLoading(false);
+      });
   }, []);
 
   const closeModal = () => {
@@ -72,7 +112,7 @@ const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
             <img
               src="assets/chatbot_logo.png"
               alt="chatbot"
-              className = "h-[70px] w-[70px] md:h-[125px] md:w-[125px]"
+              className="h-[70px] w-[70px] md:h-[125px] md:w-[125px]"
             />
           </div>
           <div className="space-y-2 text-center ">
