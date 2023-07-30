@@ -3,6 +3,7 @@ import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { AuthContext } from "states/AuthContextProvider";
 import jwt from "jwt-decode";
+import toast from "react-hot-toast";
 
 export const LoginGooglePage = () => {
   const navigate = useNavigate();
@@ -20,9 +21,13 @@ export const LoginGooglePage = () => {
             authContext.setAccessToken(data["access_token"]);
             authContext.setUser(jwt(data["access_token"]));
             authContext.setIsLoggedIn(true);
+            toast.success(
+              "Logged In Successfully. Welcome " + authContext.user.name
+            );
             navigate("/dashboard");
           }
-        });
+        })
+        .catch((e) => toast.error("Error: " + e));
     }
   }, []);
 

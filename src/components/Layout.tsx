@@ -10,7 +10,6 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
-  console.log(location);
 
   return (
     <div className="min-h-screen flex flex-col">
