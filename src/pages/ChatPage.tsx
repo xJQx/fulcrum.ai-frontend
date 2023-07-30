@@ -1,3 +1,4 @@
+import { clientAssetBaseUrl } from "config/client";
 import { serverWebsocketBaseUrl } from "config/server";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { AuthContext } from "states/AuthContextProvider";
@@ -76,7 +77,7 @@ const ChatPage = () => {
           <div className="flex items-center p-[18px] md:p-[24px] m-auto gap-4 w-5/6 md:w-4/6">
             <div className="flex items-center justify-center rounded-full bg-brand-sunglow h-10 w-10 md:h-12 md:w-12 avatar">
               <img
-                src="fulcrum.ai-frontend/assets/fulcrum.ai_logo.png"
+                src={`${clientAssetBaseUrl}assets/fulcrum.ai_logo.png`}
                 alt="Fulcrum.ai Logo"
                 className="h-8 w-8 md:h-10 md:w-10"
               />
@@ -133,7 +134,7 @@ const ChatPage = () => {
               onClick={handleSendMessage}
             >
               <img
-                src="fulcrum.ai-frontend/assets/send_message.svg"
+                src={`${clientAssetBaseUrl}assets/send_message.svg`}
                 alt="Send Message"
                 className="h-5 w-5"
               />

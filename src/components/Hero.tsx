@@ -2,7 +2,7 @@ import React from "react";
 import { ButtonLink } from "./ButtonLink";
 import { TextLinearGradient, UnderlineCustomBrandCurve } from "./Typography";
 import { FaRobot } from "react-icons/fa6";
-import { clientBaseUrl } from "config/client";
+import { clientAssetBaseUrl, clientBaseUrl } from "config/client";
 
 export const Hero = () => {
   return (
@@ -37,7 +37,7 @@ export const Hero = () => {
       {/* Phone Preview */}
       <div className="hidden lg:block min-w-[350px]">
         <img
-          src="fulcrum.ai-frontend/assets/phone_preview.jpeg"
+          src={`${clientAssetBaseUrl}assets/phone_preview.jpeg`}
           alt="phone preview"
           height="500"
           width="400"
