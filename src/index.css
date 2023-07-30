@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.FAQsection{
-  background-color: #F2F2F2;
+.FAQsection {
+  background-color: #f2f2f2;
 }
 
 .card:hover {
@@ -23,7 +23,12 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.center_box{
+.confirm_btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.center_box {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -32,4 +37,4 @@
 
 .toast {
   z-index: 1051;
- }
+}

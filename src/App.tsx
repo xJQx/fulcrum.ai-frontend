@@ -9,6 +9,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { FAQPage } from "pages/FAQPage";
 import { ChatbotEditPage } from "pages/ChatbotEditPage";
+import ChatPage from "pages/ChatPage";
 import { LoginGooglePage } from "pages/LoginGooglePage";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/chatbot" element={<ChatbotPage />} />
+          <Route path="/chat" element={<ChatPage />} />
           <Route
             path="/chatbot/edit/:chatbotId"
             element={<ChatbotEditPage />}
