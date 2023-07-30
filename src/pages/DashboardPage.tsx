@@ -2,15 +2,16 @@ import { Button } from "components/Button";
 import { ChatbotCard } from "components/ChatbotCard";
 import { clientBaseUrl } from "config/client";
 import useFetch from "hooks/useFetch";
-import { chatbotsData } from "mockData/chatbotsData";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ChatbotSchema } from "schemas/chatbot";
 import { AuthContext } from "states/AuthContextProvider";
 
 export const DashboardPage = () => {
   const fetch = useFetch();
   const navigate = useNavigate();
-  const authContext = React.useContext(AuthContext);
+  const authState = React.useContext(AuthContext);
+  const [chatbotsList, setChatbotsList] = useState<ChatbotSchema[]>([]);
   const [numberOfChatbotsVisible, setNumberOfChatbotsVisible] = useState(4);
 
   const viewMoreChatbots = () => {
@@ -21,7 +22,7 @@ export const DashboardPage = () => {
   };
 
   React.useEffect(() => {
-    if (!authContext.isLoggedIn) {
+    if (!authState.isLoggedIn) {
       return navigate(clientBaseUrl);
     }
   }, []);
@@ -29,11 +30,17 @@ export const DashboardPage = () => {
   // TODO: Integrate with backend
   React.useEffect(() => {
     try {
-      if (authContext.isLoggedIn)
+      if (authState.isLoggedIn)
         fetch
           .get("chatbot/get/all")
-          .then((data) => {
-            console.log(data);
+          .then((chatbotIds: string[]) => {
+            chatbotIds.forEach((chatbotId) => {
+              fetch
+                .get(`/getChatbot/${chatbotId}`)
+                .then((chatbotDetails) =>
+                  setChatbotsList((prev) => [...prev, chatbotDetails])
+                );
+            });
           })
           .catch((e) => console.log(e.detail));
     } catch (e) {
@@ -60,7 +67,7 @@ export const DashboardPage = () => {
       {/* Chatbot Cards */}
       <section className="mb-[80px] px-[32px] flex flex-col justify-center items-center">
         <div className="flex flex-wrap justify-center items-center gap-5 max-w-screen-lg">
-          {chatbotsData.map(
+          {chatbotsList.map(
             (chatbot, index) =>
               index < numberOfChatbotsVisible && (
                 <ChatbotCard key={chatbot.chatbot_id} {...chatbot} />
@@ -80,7 +87,7 @@ export const DashboardPage = () => {
           )}
 
           {/* View More Button */}
-          {numberOfChatbotsVisible < chatbotsData.length && (
+          {numberOfChatbotsVisible < chatbotsList.length && (
             <Button className="w-[40%] text-center" onClick={viewMoreChatbots}>
               View More
             </Button>

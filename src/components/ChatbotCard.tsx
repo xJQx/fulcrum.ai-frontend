@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { ButtonLink } from "./ButtonLink";
 import { ChatbotSchema } from "schemas/chatbot";
@@ -6,6 +6,8 @@ import { Button } from "./Button";
 import useFetch from "hooks/useFetch";
 import { clientBaseUrl } from "config/client";
 import { Toast, toast } from "react-hot-toast";
+import { useNavigate } from "react-router";
+import { ChatbotContext } from "states/ChatbotContextProvider";
 
 export type ChatbotCardProps = ChatbotSchema;
 
@@ -19,11 +21,13 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
     deployedURL,
   } = props;
 
-  const fetchAPI = useFetch();
+  const fetch = useFetch();
+  const navigate = useNavigate();
+  const chatbotState = useContext(ChatbotContext);
 
   const handleDelete = async () => {
     try {
-      const response = await fetchAPI._delete(
+      const response = await fetch._delete(
         `chatbot/deleteChatbot/userId/${chatbot_id}`
       );
 
@@ -39,6 +43,11 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
       // Handle any errors that occurred during the API call
       console.error("Error during API call:", error);
     }
+  };
+
+  const handleRunChatbot = () => {
+    chatbotState.setEndpointURL(deployedURL);
+    navigate(`${clientBaseUrl}chat`);
   };
 
   const ConfirmDeleteToast = ({ t }: { t: Toast }) => {
@@ -124,9 +133,13 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
           >
             Delete
           </Button>
-          <ButtonLink href={`${clientBaseUrl}chat/${chatbot_id}`}>
+          <Button
+            onClick={() => {
+              handleRunChatbot();
+            }}
+          >
             Run
-          </ButtonLink>
+          </Button>
         </section>
       </div>
     </CardContainer>

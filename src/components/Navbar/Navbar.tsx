@@ -19,6 +19,7 @@ export const Navbar = () => {
   const navbarItems: NavbarItemsProps["items"] = authState.isLoggedIn
     ? [
         { text: "Dashboard", href: clientBaseUrl + "dashboard" },
+        { text: "Create", href: clientBaseUrl + "chatbot" },
         { text: "DOCS", href: clientBaseUrl + "docs" },
         { text: "FAQ", href: clientBaseUrl + "faq" },
       ]
