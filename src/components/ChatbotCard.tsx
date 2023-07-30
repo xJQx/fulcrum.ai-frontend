@@ -2,6 +2,8 @@ import React from "react";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { ButtonLink } from "./ButtonLink";
 import { ChatbotDisplaySchema } from "schemas/chatbot";
+import { Button } from "./Button";
+import useFetch from "hooks/useFetch";
 
 export type ChatbotCardProps = ChatbotDisplaySchema;
 
@@ -17,6 +19,27 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
     if (percentage < 50) return "text-green-500";
     if (percentage < 75) return "text-yellow-500";
     return "text-red-500";
+  };
+
+  // consuming the delete endpoint
+  const fetchAPI = useFetch();
+
+  const handleDelete = async () => {
+    try {
+      const response = await fetchAPI._delete(`chatbot/deleteChatbot/userId/${chatbotId}`);
+
+      // Handle the response here
+      if (response.msg === "Success") {
+        // Success
+        console.log("Chatbot deleted successfully");
+      } else {
+        // Error handling
+        console.error("Error while deleting chatbot:", response.error);
+      }
+    } catch (error) {
+      // Handle any errors that occurred during the API call
+      console.error("Error during API call:", error);
+    }
   };
 
   return (
@@ -72,9 +95,9 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
 
         {/* Button */}
         <section className="mt-3 flex gap-2 justify-end">
-          <ButtonLink href={`chatbot/edit/${chatbotId}`} variant="ghost">
-            Edit
-          </ButtonLink>
+          <Button className="bg-white border border-brand-sunglow text-brand-sunglow hover:bg-brand-sunglow hover:text-brand-gunmetal" onClick={handleDelete}>
+            Delete
+          </Button>
           <ButtonLink href={`chat/${chatbotId}`}>Run</ButtonLink>
         </section>
       </div>

@@ -75,16 +75,18 @@ export const ChatbotPage = () => {
         const formData = new FormData();
         formData.append("file", selectedFile);
         formData.append("email", user.email);
-        formData.append("chatbotID", "chatbot1");
-
-        fetch
+        // formData.append("chatbotID", "chatbot1");
+        const response = await fetch
           .post("chatbot/uploadTrainingData", formData, "form")
           .then((data) => {
-            console.log("File uploaded successfully:", data.filename);
+            console.log("File uploaded successfully:", data);
+            return data;
           })
           .catch((error) => {
             console.error("Error uploading file:", error);
           });
+        const chatbotId = response.chatbotID;
+        const filename = response.filename;
         setSelectedFile(selectedFile);
       } else {
         setPdfFile(null);
