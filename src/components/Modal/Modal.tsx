@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { serverBaseUrl } from "config/server";
+import { clientBaseUrl } from "config/client";
 
 type Inputs = {
   name: string;
@@ -31,7 +32,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
   const navigate = useNavigate();
   const navigateHome = () => {
     // 👇️ navigate to /
-    navigate("/");
+    navigate(clientBaseUrl);
   };
 
   const endpointURL = `${serverBaseUrl}faq`;
@@ -39,18 +40,17 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     onPostQns();
     try {
-      // always need to use FormData for multi-part form 
+      // always need to use FormData for multi-part form
       const _data = new FormData();
 
       _data.append("name", data.name);
       _data.append("email", data.email);
       _data.append("message", data.message);
 
-      const response = await fetch(endpointURL,{
-        method: 'POST',
+      const response = await fetch(endpointURL, {
+        method: "POST",
         body: _data,
-      }
-       );
+      });
       const jsonData = await response.json();
 
       console.log(jsonData);

@@ -1,11 +1,12 @@
 import { TextLinearGradient } from "components/Typography";
 import React from "react";
 import { FooterLinks, FooterLinksProps } from "./FooterLinks";
+import { clientBaseUrl } from "config/client";
 
 export const Footer = () => {
   const footerLinks: FooterLinksProps["links"] = [
-    { text: "API", href: "/api" },
-    { text: "FAQ", href: "/faq" },
+    { text: "DOCS", href: clientBaseUrl + "docs" },
+    { text: "FAQ", href: clientBaseUrl + "faq" },
     {
       text: "Source Code",
       href: "https://github.com/xJQx/fulcrum.ai-frontend",

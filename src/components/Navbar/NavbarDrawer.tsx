@@ -5,6 +5,7 @@ import { Button } from "components/Button";
 import { serverBaseUrl } from "config/server";
 import { AuthContext } from "states/AuthContextProvider";
 import { useNavigate } from "react-router";
+import { clientBaseUrl } from "config/client";
 
 export interface NavbarDrawerProps {
   items: NavbarItemsProps["items"];
@@ -17,7 +18,7 @@ export const NavbarDrawer = (props: NavbarDrawerProps) => {
 
   const handleLogout = () => {
     authState.setIsLoggedIn(false);
-    navigate("/");
+    navigate(clientBaseUrl);
   };
 
   return (
@@ -32,7 +33,7 @@ export const NavbarDrawer = (props: NavbarDrawerProps) => {
             <Button className="cursor-pointer">Logout</Button>
           </a>
         ) : (
-          <ButtonLink href="login">Login</ButtonLink>
+          <ButtonLink href={clientBaseUrl + "login"}>Login</ButtonLink>
         )}
       </div>
     </div>

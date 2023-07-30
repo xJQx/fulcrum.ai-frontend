@@ -1,3 +1,4 @@
+import { clientBaseUrl } from "config/client";
 import useFetch from "hooks/useFetch";
 import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
@@ -19,7 +20,7 @@ const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
   const navigate = useNavigate();
 
   const navigateToChatPage = () => {
-    navigate("/chat");
+    navigate(`${clientBaseUrl}chat`);
   };
 
   // call the create_chatbot endpoint

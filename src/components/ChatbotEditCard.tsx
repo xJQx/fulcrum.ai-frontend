@@ -6,6 +6,7 @@ import FileUploader from "./FileUploader";
 import { Button } from "./Button";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { clientBaseUrl } from "config/client";
 
 type ChatbotEditCardProps = ChatbotDisplaySchema;
 
@@ -38,7 +39,7 @@ export const ChatbotEditCard = (props: ChatbotEditCardProps) => {
           {/* Chatbot Name */}
           <div className="flex flex-row gap-2 items-center font-semibold text-[24px]">
             {name} (#{chatbotId}){" "}
-            <a href={`/chat/${chatbotId}`}>
+            <a href={`${clientBaseUrl}/chat/${chatbotId}`}>
               <FaArrowUpRightFromSquare className="w-[16px] cursor-pointer hover:text-brand-sandy-brown" />
             </a>
           </div>
@@ -100,7 +101,7 @@ export const ChatbotEditCard = (props: ChatbotEditCardProps) => {
 
         {/* Button */}
         <section className="mt-3 flex gap-2 justify-end">
-          <ButtonLink href="dashboard" variant="ghost">
+          <ButtonLink href={`${clientBaseUrl}dashboard`} variant="ghost">
             Cancel
           </ButtonLink>
           <Button

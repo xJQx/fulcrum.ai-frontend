@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { AuthContext } from "states/AuthContextProvider";
 import jwt from "jwt-decode";
 import toast from "react-hot-toast";
+import { clientBaseUrl } from "config/client";
 
 export const LoginGooglePage = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ export const LoginGooglePage = () => {
 
   useEffect(() => {
     if (authContext.isLoggedIn) {
-      navigate("/");
+      navigate(clientBaseUrl);
     } else {
       fetch(serverBaseUrl + "auth/login/cookies", { credentials: "include" })
         .then((res) => res.json())
@@ -24,7 +25,7 @@ export const LoginGooglePage = () => {
             toast.success(
               "Logged In Successfully. Welcome " + authContext.user.name
             );
-            navigate("/dashboard");
+            navigate(`${clientBaseUrl}dashboard`);
           }
         })
         .catch((e) => toast.error("Error: " + e));
@@ -49,7 +50,10 @@ export const LoginGooglePage = () => {
           */}
           <a href={serverBaseUrl + "auth/login/google"}>
             <div className="flex flex-row justify-center items-center bg-[#4385F5] hover:bg-[#366dca] p-[2px] rounded">
-              <img src="/assets/google-logo.png" className="w-10 rounded" />
+              <img
+                src={`${clientBaseUrl}assets/google-logo.png`}
+                className="w-10 rounded"
+              />
               <span className="text-white font-semibold px-3">
                 Login with Google
               </span>

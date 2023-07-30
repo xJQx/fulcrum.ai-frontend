@@ -1,5 +1,6 @@
 import { Button } from "components/Button";
 import { ChatbotCard } from "components/ChatbotCard";
+import { clientBaseUrl } from "config/client";
 import useFetch from "hooks/useFetch";
 import { chatbotsData } from "mockData/chatbotsData";
 import React, { useState } from "react";
@@ -21,7 +22,7 @@ export const DashboardPage = () => {
 
   React.useEffect(() => {
     if (!authContext.isLoggedIn) {
-      return navigate("/");
+      return navigate(clientBaseUrl);
     }
   }, []);
 

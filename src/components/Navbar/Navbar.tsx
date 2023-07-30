@@ -10,6 +10,7 @@ import { AuthContext } from "states/AuthContextProvider";
 import { Button } from "components/Button";
 import { useNavigate } from "react-router";
 import { serverBaseUrl } from "config/server";
+import { clientBaseUrl } from "config/client";
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -17,20 +18,20 @@ export const Navbar = () => {
 
   const navbarItems: NavbarItemsProps["items"] = authState.isLoggedIn
     ? [
-        { text: "Dashboard", href: "/dashboard" },
-        { text: "DOCS", href: "/docs" },
-        { text: "FAQ", href: "/faq" },
+        { text: "Dashboard", href: clientBaseUrl + "dashboard" },
+        { text: "DOCS", href: clientBaseUrl + "docs" },
+        { text: "FAQ", href: clientBaseUrl + "faq" },
       ]
     : [
-        { text: "DOCS", href: "/docs" },
-        { text: "FAQ", href: "/faq" },
+        { text: "DOCS", href: clientBaseUrl + "docs" },
+        { text: "FAQ", href: clientBaseUrl + "faq" },
       ];
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleLogout = () => {
     authState.setIsLoggedIn(false);
-    navigate("/");
+    navigate(clientBaseUrl);
   };
 
   return (
@@ -38,7 +39,7 @@ export const Navbar = () => {
       {/* Brand Name + Navbar Items */}
       <div className="flex flex-row justify-between items-center gap-20">
         {/* Brand Name */}
-        <a href="/">
+        <a href={clientBaseUrl}>
           <TextLinearGradient
             brand
             className="text-[24px] md:text-[32px] font-bold"
@@ -60,7 +61,7 @@ export const Navbar = () => {
             <Button className="cursor-pointer">Logout</Button>
           </a>
         ) : (
-          <ButtonLink href="login">Login</ButtonLink>
+          <ButtonLink href={clientBaseUrl + "login"}>Login</ButtonLink>
         )}
       </div>
 
