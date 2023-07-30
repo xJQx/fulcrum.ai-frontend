@@ -2,6 +2,7 @@ import React from "react";
 import { ButtonLink } from "./ButtonLink";
 import { TextLinearGradient, UnderlineCustomBrandCurve } from "./Typography";
 import { FaRobot } from "react-icons/fa6";
+import { clientBaseUrl } from "config/client";
 
 export const Hero = () => {
   return (
@@ -29,14 +30,14 @@ export const Hero = () => {
           data, just for your <span className="underline">needs</span>.
         </div>
         <div className="w-max">
-          <ButtonLink href="/demo">Try Now</ButtonLink>
+          <ButtonLink href={`${clientBaseUrl}login`}>Try Now</ButtonLink>
         </div>
       </div>
 
       {/* Phone Preview */}
       <div className="hidden lg:block min-w-[350px]">
         <img
-          src="assets/phone_preview.jpeg"
+          src={`${clientBaseUrl}assets/phone_preview.jpeg`}
           alt="phone preview"
           height="500"
           width="400"

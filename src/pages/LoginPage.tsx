@@ -1,3 +1,4 @@
+import { clientBaseUrl } from "config/client";
 import React, { useContext, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -20,7 +21,7 @@ export const LoginPage = () => {
 
   useEffect(() => {
     if (authContext.isLoggedIn) {
-      navigate("/");
+      navigate(clientBaseUrl);
     }
   }, []);
 
@@ -42,7 +43,7 @@ export const LoginPage = () => {
     // }
 
     authContext.setIsLoggedIn(true);
-    navigate("/dashboard");
+    navigate(`${clientBaseUrl}dashboard`);
   };
 
   return (
@@ -54,7 +55,10 @@ export const LoginPage = () => {
           <div className=" text-brand-gunmetal font-source-sans-pro font-normal max-w-[425px] text-[15px] py-[15px] text-center md:text-center below">
             Don&apos;t have an account? Sign up{" "}
             <span className="hover:text-brand-burnt-sienna">
-              <a href="/signup" className="underline cursor-pointer">
+              <a
+                href={`${clientBaseUrl}signup`}
+                className="underline cursor-pointer"
+              >
                 here
               </a>
               .

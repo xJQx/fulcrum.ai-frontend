@@ -2,6 +2,7 @@ import React from "react";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { ButtonLink } from "./ButtonLink";
 import { ChatbotDisplaySchema } from "schemas/chatbot";
+import { clientBaseUrl } from "config/client";
 
 export type ChatbotCardProps = ChatbotDisplaySchema;
 
@@ -25,7 +26,7 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
         {/* Chatbot Name */}
         <div className="flex flex-row gap-2 items-center font-semibold text-[24px]">
           {name}{" "}
-          <a href={`chat/${chatbotId}`}>
+          <a href={`${clientBaseUrl}chat/${chatbotId}`}>
             <FaArrowUpRightFromSquare className="w-[16px] cursor-pointer hover:text-brand-sandy-brown" />
           </a>
         </div>
@@ -72,10 +73,15 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
 
         {/* Button */}
         <section className="mt-3 flex gap-2 justify-end">
-          <ButtonLink href={`chatbot/edit/${chatbotId}`} variant="ghost">
+          <ButtonLink
+            href={`${clientBaseUrl}chatbot/edit/${chatbotId}`}
+            variant="ghost"
+          >
             Edit
           </ButtonLink>
-          <ButtonLink href={`chat/${chatbotId}`}>Run</ButtonLink>
+          <ButtonLink href={`${clientBaseUrl}chat/${chatbotId}`}>
+            Run
+          </ButtonLink>
         </section>
       </div>
     </CardContainer>

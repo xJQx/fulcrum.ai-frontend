@@ -5,6 +5,7 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { AppContextProvider } from "states/AppContextProvider";
 import Modal from "react-modal";
+import { clientBaseUrl } from "config/client";
 
 require("typeface-work-sans");
 require("typeface-source-sans-pro");
@@ -17,7 +18,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <BrowserRouter basename="/fulcrum.ai-frontend">
+    <BrowserRouter basename={clientBaseUrl}>
       <AppContextProvider>
         <App />
       </AppContextProvider>
