@@ -1,9 +1,15 @@
 import { Button } from "components/Button";
 import { ChatbotCard } from "components/ChatbotCard";
+import useFetch from "hooks/useFetch";
 import { chatbotsData } from "mockData/chatbotsData";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "states/AuthContextProvider";
 
 export const DashboardPage = () => {
+  const fetch = useFetch();
+  const navigate = useNavigate();
+  const authContext = React.useContext(AuthContext);
   const [numberOfChatbotsVisible, setNumberOfChatbotsVisible] = useState(4);
 
   const viewMoreChatbots = () => {
@@ -12,6 +18,24 @@ export const DashboardPage = () => {
   const hideSomeChatbots = () => {
     setNumberOfChatbotsVisible(numberOfChatbotsVisible - 2);
   };
+
+  React.useEffect(() => {
+    if (!authContext.isLoggedIn) {
+      return navigate("/");
+    }
+  }, []);
+
+  // TODO: Integrate with backend
+  // React.useEffect(() => {
+  //   try {
+  //     if (authContext.isLoggedIn)
+  //       fetch
+  //         .get("chatbot/getChatbot/...")
+  //         .catch((e) => console.log(e.detail));
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }, []);
 
   return (
     <>

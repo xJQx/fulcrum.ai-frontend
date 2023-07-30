@@ -13,9 +13,9 @@ import { serverBaseUrl } from "config/server";
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  const authContext = useContext(AuthContext);
+  const authState = useContext(AuthContext);
 
-  const navbarItems: NavbarItemsProps["items"] = authContext.isLoggedIn
+  const navbarItems: NavbarItemsProps["items"] = authState.isLoggedIn
     ? [
         { text: "Dashboard", href: "/dashboard" },
         { text: "DOCS", href: "/docs" },
@@ -29,7 +29,7 @@ export const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleLogout = () => {
-    authContext.setIsLoggedIn(false);
+    authState.setIsLoggedIn(false);
     navigate("/");
   };
 
@@ -55,7 +55,7 @@ export const Navbar = () => {
 
       {/* Login/Logout Button */}
       <div className="hidden md:block">
-        {authContext.isLoggedIn ? (
+        {authState.isLoggedIn ? (
           <a href={serverBaseUrl + "auth/logout"} onClick={handleLogout}>
             <Button className="cursor-pointer">Logout</Button>
           </a>
