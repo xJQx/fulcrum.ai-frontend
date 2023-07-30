@@ -1,5 +1,6 @@
 import { serverBaseUrl } from "config/server";
-import { LocalStorageEnum } from "types/enums";
+import { useContext } from "react";
+import { AuthContext } from "states/AuthContextProvider";
 
 /* Helper functions */
 const parseRequestEndpoint = (endpoint: string) => {
@@ -35,8 +36,10 @@ const handleResponse = async (response: Response) => {
   fetch._delete('endpoint1')
 */
 const useFetch = () => {
+  const authContext = useContext(AuthContext);
+
   const getAuthHeader = () => {
-    const access_token = localStorage.getItem(LocalStorageEnum.access_token);
+    const access_token = authContext.accessToken;
     let authHeader: any = { "Access-Control-Allow-Origin": "*" };
     if (access_token)
       authHeader = {

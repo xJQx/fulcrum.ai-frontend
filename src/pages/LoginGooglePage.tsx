@@ -2,7 +2,7 @@ import { serverBaseUrl } from "config/server";
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { AuthContext } from "states/AuthContextProvider";
-import { LocalStorageEnum } from "types/enums";
+import jwt from "jwt-decode";
 
 export const LoginGooglePage = () => {
   const navigate = useNavigate();
@@ -17,10 +17,8 @@ export const LoginGooglePage = () => {
         .then((data) => {
           // has access_token -> Login user
           if (data["access_token"]) {
-            localStorage.setItem(
-              LocalStorageEnum.access_token,
-              data["access_token"]
-            );
+            authContext.setAccessToken(data["access_token"]);
+            authContext.setUser(jwt(data["access_token"]));
             authContext.setIsLoggedIn(true);
             navigate("/dashboard");
           }
