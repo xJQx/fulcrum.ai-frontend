@@ -1,34 +1,30 @@
 import React from "react";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { ButtonLink } from "./ButtonLink";
-import { ChatbotDisplaySchema } from "schemas/chatbot";
+import { ChatbotSchema } from "schemas/chatbot";
 import { Button } from "./Button";
 import useFetch from "hooks/useFetch";
 import { clientBaseUrl } from "config/client";
+import { Toast, toast } from "react-hot-toast";
 
-export type ChatbotCardProps = ChatbotDisplaySchema;
+export type ChatbotCardProps = ChatbotSchema;
 
 export const ChatbotCard = (props: ChatbotCardProps) => {
-  const { chatbotId, name, trainedData, parameters, usage } = props;
+  const {
+    chatbot_id,
+    dataFileName,
+    personality,
+    created_date,
+    updated_date,
+    deployedURL,
+  } = props;
 
-  const usageApiRequestPercentage =
-    Math.round((usage.currentApiRequests / usage.maxApiRequests) * 100 * 100) /
-    100;
-  const usageTimeUsedPercentage =
-    Math.round((usage.timeUsed / usage.totalTime) * 100 * 100) / 100;
-  const percentageToColorClassName = (percentage: number) => {
-    if (percentage < 50) return "text-green-500";
-    if (percentage < 75) return "text-yellow-500";
-    return "text-red-500";
-  };
-
-  // consuming the delete endpoint
   const fetchAPI = useFetch();
 
   const handleDelete = async () => {
     try {
       const response = await fetchAPI._delete(
-        `chatbot/deleteChatbot/userId/${chatbotId}`
+        `chatbot/deleteChatbot/userId/${chatbot_id}`
       );
 
       // Handle the response here
@@ -45,66 +41,90 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
     }
   };
 
+  const ConfirmDeleteToast = ({ t }: { t: Toast }) => {
+    return (
+      <div
+        className={`${
+          t.visible ? "animate-enter" : "animate-leave"
+        } max-w-lg w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+      >
+        <div className="flex-1 w-0 p-4">
+          <div className="flex items-start">
+            <div className="ml-3 flex-1">
+              <p className="text-sm font-medium text-gray-900">
+                ❗ &nbsp;Are you sure you want to delete this chatbot?
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex border-l border-gray-200 flex-row justify-center items-center px-4 gap-2">
+          <button
+            onClick={() => {
+              toast.dismiss(t.id);
+              handleDelete();
+              toast("❗ Deleting...");
+            }}
+            className="w-full border border-transparent rounded-none rounded-r-lg flex items-center justify-center text-sm font-medium text-red-600 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500"
+          >
+            Yes
+          </button>
+          <span>/</span>
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className="w-full border border-transparent rounded-none rounded-r-lg flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            No
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <CardContainer>
       <div className="flex flex-col gap-4">
         {/* Chatbot Name */}
         <div className="flex flex-row gap-2 items-center font-semibold text-[24px]">
-          {name}{" "}
-          <a href={`${clientBaseUrl}chat/${chatbotId}`}>
+          # {chatbot_id}{" "}
+          <a href={`${clientBaseUrl}chat/${chatbot_id}`}>
             <FaArrowUpRightFromSquare className="w-[16px] cursor-pointer hover:text-brand-sandy-brown" />
           </a>
         </div>
 
-        {/* Trained Data */}
-        <div>
-          Trained Data:{" "}
-          <span className="text-blue-600 underline">{trainedData}</span>
-        </div>
-
-        {/* Tuned Parameters */}
         <section className="flex flex-col">
-          <span>Tuned Parameters:</span>
-          <div className="flex flex-col text-[#6B6B6B] text-[14px]">
-            <span>{`> Personality: ${parameters.personality}`}</span>
-            <span>{`> Language: ${parameters.language}`}</span>
+          {/* Trained Data */}
+          <div>
+            <span className="font-semibold">Data File Name: </span>
+            <span className="text-blue-600 underline">{dataFileName}</span>
+          </div>
+
+          {/* Tuned Parameters */}
+          <div>
+            <span className="font-semibold">Personality: </span>
+            <span className="">{personality}</span>
           </div>
         </section>
 
-        {/* Usage */}
-        <section className="flex flex-col">
-          <span>Usage:</span>
-          <div className="flex flex-col text-[#6B6B6B] text-[14px]">
-            <span>
-              {"> API Requests: "}
-              <span
-                className={percentageToColorClassName(
-                  usageApiRequestPercentage
-                )}
-              >
-                {`${usage.currentApiRequests}/${usage.maxApiRequests} (${usageApiRequestPercentage}%)`}
-              </span>
-            </span>
-            <span>
-              {"> Time (minutes): "}
-              <span
-                className={percentageToColorClassName(usageTimeUsedPercentage)}
-              >
-                {`${usage.timeUsed}/${usage.totalTime} (${usageTimeUsedPercentage}%)`}
-              </span>
-            </span>
+        {/* Dates */}
+        <section className="text-[12px]">
+          <div>
+            Deployed At: <span className="underline">{deployedURL}</span>
           </div>
+          <div>Created At: {created_date}</div>
+          <div>Updated At: {updated_date}</div>
         </section>
 
         {/* Button */}
         <section className="mt-3 flex gap-2 justify-end">
           <Button
-            className="bg-white border border-brand-sunglow text-brand-sunglow hover:bg-brand-sunglow hover:text-brand-gunmetal"
-            onClick={handleDelete}
+            className="bg-white border border-red-400 text-red-500 hover:bg-red-400 hover:text-white"
+            onClick={() => {
+              toast.custom((t) => <ConfirmDeleteToast t={t} />);
+            }}
           >
             Delete
           </Button>
-          <ButtonLink href={`${clientBaseUrl}chat/${chatbotId}`}>
+          <ButtonLink href={`${clientBaseUrl}chat/${chatbot_id}`}>
             Run
           </ButtonLink>
         </section>

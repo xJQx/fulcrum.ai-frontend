@@ -63,7 +63,7 @@ export const DashboardPage = () => {
           {chatbotsData.map(
             (chatbot, index) =>
               index < numberOfChatbotsVisible && (
-                <ChatbotCard key={chatbot.name} {...chatbot} />
+                <ChatbotCard key={chatbot.chatbot_id} {...chatbot} />
               )
           )}
         </div>
