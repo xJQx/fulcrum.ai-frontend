@@ -37,7 +37,7 @@ export const Hero = () => {
       {/* Phone Preview */}
       <div className="hidden lg:block min-w-[350px]">
         <img
-          src={`${clientBaseUrl}assets/phone_preview.jpeg`}
+          src="fulcrum.ai-frontend/assets/phone_preview.jpeg"
           alt="phone preview"
           height="500"
           width="400"

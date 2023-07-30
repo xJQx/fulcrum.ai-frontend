@@ -51,7 +51,7 @@ export const LoginGooglePage = () => {
           <a href={serverBaseUrl + "auth/login/google"}>
             <div className="flex flex-row justify-center items-center bg-[#4385F5] hover:bg-[#366dca] p-[2px] rounded">
               <img
-                src={`${clientBaseUrl}assets/google-logo.png`}
+                src="fulcrum.ai-frontend/assets/google-logo.png"
                 className="w-10 rounded"
               />
               <span className="text-white font-semibold px-3">

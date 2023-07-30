@@ -81,7 +81,7 @@ export const HomePage = () => {
           </div>
           <div className="mt-[56px] flex justify-center items-center">
             <img
-              src="assets/desktop-dashboard-preview.png"
+              src="fulcrum.ai-frontend/assets/desktop-dashboard-preview.png"
               alt="desktop-dashboard-preview.png"
             />
           </div>
