@@ -10,11 +10,11 @@ import { useNavigate } from "react-router";
 import { ChatbotContext } from "states/ChatbotContextProvider";
 import { AuthContext } from "states/AuthContextProvider";
 
-export type ChatbotCardProps = ChatbotSchema;
+// export type ChatbotCardProps = ChatbotSchema;
 
-// interface ChatbotCardProps extends ChatbotSchema{
-//   onDelete:(chatbotId:string)=>void;
-// }
+interface ChatbotCardProps extends ChatbotSchema{
+  onDelete:(chatbotId:string)=>void;
+}
 
 export const ChatbotCard = (props: ChatbotCardProps) => {
   const {
@@ -42,7 +42,7 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
       if (response.msg === "Success") {
         // Success
         console.log("Chatbot deleted successfully");
-        // props.onDelete(chatbot_id);
+        props.onDelete(chatbot_id);
       } else {
         // Error handling
         console.error("Error while deleting chatbot:", response.error);

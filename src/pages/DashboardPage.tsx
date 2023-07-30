@@ -21,6 +21,13 @@ export const DashboardPage = () => {
     setNumberOfChatbotsVisible(numberOfChatbotsVisible - 2);
   };
 
+  // Function to remove the deleted chatbot from the chatbotsList
+  const handleChatbotDelete = (chatbotId: string) => {
+    setChatbotsList((prevList) =>
+      prevList.filter((chatbot) => chatbot.chatbot_id !== chatbotId)
+    );
+  };
+
   React.useEffect(() => {
     if (!authState.isLoggedIn) {
       return navigate(clientBaseUrl);
@@ -114,7 +121,7 @@ export const DashboardPage = () => {
           {chatbotsList.map((chatbot, index) => {
             if (index < numberOfChatbotsVisible) {
               console.log(chatbot);
-              return <ChatbotCard key={chatbot.chatbot_id} {...chatbot} />;
+              return <ChatbotCard key={chatbot.chatbot_id} {...chatbot} onDelete={handleChatbotDelete}/>;
             }
             return null;
           })}
