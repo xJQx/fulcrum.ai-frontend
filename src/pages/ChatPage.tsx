@@ -1,3 +1,4 @@
+import { serverWebsocketBaseUrl } from "config/server";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { AuthContext } from "states/AuthContextProvider";
 
@@ -41,7 +42,7 @@ const ChatPage = () => {
   };
 
   useEffect(() => {
-    const webSocket = new WebSocket("ws://localhost:8000/api/comms/chat");
+    const webSocket = new WebSocket(`${serverWebsocketBaseUrl}api/comms/chat`);
     webSocketRef.current = webSocket;
 
     webSocket.onopen = (event) => {

@@ -58,11 +58,6 @@ export const ChatbotPage = () => {
     handlePDFFile(event);
   };
 
-  // const headers = {
-  //   Authorization:
-  //     "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVzdGhlcnRlb2dla3dhdEBnbWFpbC5jb20iLCJpZCI6IjY0YzRlYTdjZGVkYWYyMDk5ZjQ5Y2Y2MyIsIm5hbWUiOiJlc3RoZXIiLCJyZWdpc3RlcmVkIjp0cnVlLCJleHAiOjE2OTA2Mjc1ODR9.SpVSVzRlyoumdabfgUgrtkTwEzCBsUZ1TRVeCBo3IrU",
-  // };
-
   const handlePDFFile = async (event: any) => {
     event.preventDefault();
     let selectedFile = event.target.files && event.target.files[0];

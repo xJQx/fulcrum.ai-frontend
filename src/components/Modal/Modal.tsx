@@ -3,6 +3,7 @@ import "./Modal.styles.css";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { serverBaseUrl } from "config/server";
 
 type Inputs = {
   name: string;
@@ -33,7 +34,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
     navigate("/");
   };
 
-  const endpointURL = "http://127.0.0.1:8000/faq";
+  const endpointURL = `${serverBaseUrl}faq`;
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     onPostQns();
