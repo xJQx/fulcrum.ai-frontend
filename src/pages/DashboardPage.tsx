@@ -28,25 +28,69 @@ export const DashboardPage = () => {
   }, []);
 
   // TODO: Integrate with backend
+  // React.useEffect(() => {
+  //   const callApi = async () => {
+  //     try {
+  //       if (authState.isLoggedIn) {
+  //         const chatbotsListtemp: ChatbotSchema[] = [];
+  //         const chatbotIds = await fetch
+  //           .get(`chatbot/getChatbots/${authState.user.id}`)
+  //           .then((data) => {
+  //             return data.chatbots;
+  //           })
+  //           .catch((e) => console.log(e.detail));
+  //         await chatbotIds.forEach(async (chatbotId: string) => {
+  //           await fetch
+  //             .get(`chatbot/getChatbot/${chatbotId}`)
+  //             .then((chatbotDetails) => {
+  //               chatbotsListtemp.push(chatbotDetails);
+  //               console.log(chatbotDetails);
+  //             });
+  //         });
+  //         setChatbotsList([...chatbotsListtemp]);
+  //       }
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  //   callApi();
+  // }, []);
+
   React.useEffect(() => {
-    try {
-      if (authState.isLoggedIn)
-        fetch
-          .get("chatbot/get/all")
-          .then((chatbotIds: string[]) => {
-            chatbotIds.forEach((chatbotId) => {
-              fetch
-                .get(`/getChatbot/${chatbotId}`)
-                .then((chatbotDetails) =>
-                  setChatbotsList((prev) => [...prev, chatbotDetails])
-                );
-            });
-          })
-          .catch((e) => console.log(e.detail));
-    } catch (e) {
-      console.log(e);
-    }
+    const callApi = async () => {
+      try {
+        if (authState.isLoggedIn) {
+          const chatbotIds = await fetch
+            .get(`chatbot/getChatbots/${authState.user.id}`)
+            .then((data) => {
+              return data.chatbots;
+            })
+            .catch((e) => console.log(e.detail));
+
+          // Remove duplicates using a Set
+          const uniqueChatbotIds = Array.from(new Set(chatbotIds));
+
+          // Use Promise.all to wait for all API calls to complete
+          const chatbotDetailsPromises = uniqueChatbotIds.map((chatbotId: any) =>
+            fetch.get(`chatbot/getChatbot/${chatbotId}`)
+          );
+          const chatbotDetailsResponses = await Promise.all(
+            chatbotDetailsPromises
+          );
+          const chatbotsListtemp = chatbotDetailsResponses.map(
+            (response) => response
+          );
+
+          setChatbotsList([...chatbotsListtemp]);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    callApi();
   }, []);
+
+  console.log(chatbotsList);
 
   return (
     <>

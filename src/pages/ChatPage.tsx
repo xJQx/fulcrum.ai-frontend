@@ -44,7 +44,9 @@ const ChatPage = () => {
   };
 
   useEffect(() => {
-    const webSocket = new WebSocket(`${chatbotState.endpointURL}/api/comms/chat`);
+    const webSocket = new WebSocket(
+      `${chatbotState.endpointURL.replace("https://", "ws://")}/api/comms/chat`
+    );
     webSocketRef.current = webSocket;
 
     webSocket.onopen = (event) => {

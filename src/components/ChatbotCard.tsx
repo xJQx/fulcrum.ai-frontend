@@ -8,6 +8,7 @@ import { clientBaseUrl } from "config/client";
 import { Toast, toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { ChatbotContext } from "states/ChatbotContextProvider";
+import { AuthContext } from "states/AuthContextProvider";
 
 export type ChatbotCardProps = ChatbotSchema;
 
@@ -25,10 +26,12 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
   const navigate = useNavigate();
   const chatbotState = useContext(ChatbotContext);
 
+  const authState = useContext(AuthContext);
+
   const handleDelete = async () => {
     try {
       const response = await fetch._delete(
-        `chatbot/deleteChatbot/userId/${chatbot_id}`
+        `chatbot/delete/${authState.user.id}/${chatbot_id}`
       );
 
       // Handle the response here
@@ -119,8 +122,8 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
           <div>
             Deployed At: <span className="underline">{deployedURL}</span>
           </div>
-          <div>Created At: {created_date}</div>
-          <div>Updated At: {updated_date}</div>
+          <div>Created At: {created_date["$date"]}</div>
+          <div>Updated At: {updated_date["$date"]}</div>
         </section>
 
         {/* Button */}

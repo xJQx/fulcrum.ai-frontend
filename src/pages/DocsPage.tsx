@@ -69,7 +69,7 @@ export const DocsPage = () => {
 
         <div className="right-col justify-center mt-[40px] text-left w-full ml-[30px] px-10 md:ml-[150px] md:mr-[50px] mb-[20px]">
           <h1
-            className="font-work-sans font-bold text-[25px] md:text-[30px] mb-[20px]"
+            className="font-work-sans font-bold text-[30px] md:text-[35px] mb-[20px] underline"
             ref={aboutThisAppRef}
           >
             About this App
@@ -88,7 +88,8 @@ export const DocsPage = () => {
           </h2>
 
           <p className="text-[18px] md:text-[20px] font-work-sans mb-[20px] pr-[10px]">
-            <b>App Version 1.0.0. TO BE UPDATED </b>
+            All browser versions should be supported. However, testing was
+            mainly done on Chrome.
           </p>
 
           <h2 className="font-work-sans font-bold text-[25px] md:text-[30px] mb-[20px]">
@@ -97,7 +98,6 @@ export const DocsPage = () => {
 
           <p className="text-[18px] md:text-[20px] font-work-sans mb-[20px] pr-[10px]">
             This app is built with Typescript, HTML and CSS.{" "}
-            <b>TO BE UPDATED</b>
           </p>
 
           <div
@@ -105,33 +105,21 @@ export const DocsPage = () => {
             ref={gettingStartedRef}
           ></div>
 
-          <h2 className="font-work-sans font-bold text-[25px] md:text-[30px] mb-[10px]">
+          <h2 className="font-work-sans font-bold text-[30px] md:text-[35px] mb-[10px] underline">
             Getting Started
           </h2>
 
           <h2 className="font-work-sans font-bold text-[25px] md:text-[30px] mb-[20px]">
-            Installing the App
-          </h2>
-          <p className="text-[18px] md:text-[20px] font-work-sans mb-[20px] pr-[10px]">
-            1. The first thing you need to do to install this app. <br />
-            2. The second thing you need to do to install this app. <br />
-            3. The app is installed now.
-            <br />
-            <b>TO BE UPDATED</b>
-          </p>
-
-          <h2 className="font-work-sans font-bold text-[25px] md:text-[30px] mb-[20px]">
-            Opening the App
+            Using the App
           </h2>
 
           <p className="text-[18px] md:text-[20px] font-work-sans mb-[20px] pr-[10px]">
-            <ol>
-              <li>1. The first thing you need to do to open this app.</li>
-              <li>2. The second thing you need to do to open this app.</li>
-              <li>3. The third thing you need to do to open this app.</li>
-              <li>4. Open the app and start using it!</li>
+            <ol >
+              <li>1. To create a chatbot, simply head over to the Chatbot tab and upload a pdf file. This will serve as the knowledge base your chatbot is trained on.</li>
+              <li>2. Upon clicking upload, a page preview will be shown.</li>
+              <li>3. Confirm this is the file to be uploaded. If you wish to choose another file, simply click the delete button and browse or drag and drop.</li>
+              <li>4. Upon clicking confirm, you will be directed to a chat page where you can start chatting with the chatbot created just for you.</li>
             </ol>
-            <b>TO BE UPDATED</b>
           </p>
 
           <div
@@ -139,7 +127,7 @@ export const DocsPage = () => {
             ref={basicFeaturesRef}
           ></div>
 
-          <h2 className="font-work-sans font-bold text-[25px] md:text-[30px] mb-[10px]">
+          <h2 className="font-work-sans font-bold text-[30px] md:text-[35px] mb-[10px] underline">
             Basic Features
           </h2>
 
@@ -195,15 +183,6 @@ export const DocsPage = () => {
             Clicking on a chatbot expands it to reveal additional details and
             statistics, such as recent user interactions specific to that
             chatbot.{" "}
-          </p>
-
-          <h2 className="font-work-sans font-bold text-[25px] md:text-[30px] mb-[20px]">
-            Access Profile
-          </h2>
-
-          <p className="text-[18px] md:text-[20px] font-work-sans mb-[20px] pr-[10px]">
-            To update your information, simply navigate to your profile and
-            click on the Edit button.<b>TO BE UPDATED</b>{" "}
           </p>
 
           <div className="divider w-100 h-1 bg-brand-sunglow rounded-[30px] my-[20px] "></div>

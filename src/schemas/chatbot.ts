@@ -5,6 +5,6 @@ export interface ChatbotSchema {
   deployedURL: string;
   personality: string;
   dataFileName: string;
-  created_date: string;
-  updated_date: string;
+  created_date: { $date: string };
+  updated_date: { $date: string };
 }

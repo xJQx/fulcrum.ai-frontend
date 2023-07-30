@@ -34,9 +34,9 @@ const Spinner = ({ setIsModalOpen, chatbotID, filename }: SpinnerProps) => {
   const createChatbot = async () => {
     const formData = new FormData();
     formData.append("userid", authState.user.id);
+    formData.append("chatbotID", chatbotID);
     formData.append("personality", "ChatGPT");
     formData.append("dataFileName", filename);
-    formData.append("chatbotID", chatbotID);
 
     try {
       const data = await fetch.post(`chatbot/createChatbot`, formData, "form");
