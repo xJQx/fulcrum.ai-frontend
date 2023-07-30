@@ -28,7 +28,7 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
   const handleDelete = async () => {
     try {
       const response = await fetchAPI._delete(
-        `${clientBaseUrl}chatbot/deleteChatbot/userId/${chatbotId}`
+        `chatbot/deleteChatbot/userId/${chatbotId}`
       );
 
       // Handle the response here

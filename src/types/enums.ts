@@ -2,4 +2,6 @@
 export enum LocalStorageEnum {
   access_token = "fulcrum.ai_access_token",
   auth_state = "fulcrum.ai_auth_state",
+  chatbot_state = "fulcrum.ai_chatbot_state"
 }
+

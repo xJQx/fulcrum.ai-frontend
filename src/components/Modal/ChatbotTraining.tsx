@@ -5,15 +5,17 @@ import Spinner from "components/Spinner";
 
 type Props = {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  chatbotID:string;
+  filename:string;
 };
 
-const ChatbotTraining = ({ setIsModalOpen }: Props) => {
+const ChatbotTraining = ({ setIsModalOpen,filename,chatbotID }: Props) => {
   return (
     <div className="bg-white w-[340px] h-[210px] md:w-[650px] md:h-[376px] rounded-lg shadow-lg block mx-auto mb-[50px] relative">
       {/* Top Section */}
       <div className="flex flex-col items-center justify-center h-[120px] md:h-[276px]">
         <div className="mt-8 mb-5 md:mt-5 md:mb-12">
-          <Spinner setIsModalOpen={setIsModalOpen} />
+          <Spinner filename={filename} chatbotID={chatbotID} setIsModalOpen={setIsModalOpen} />
         </div>
         <div className="space-y-2 text-center">
           <p className="text-sm md:text-lg text-black">

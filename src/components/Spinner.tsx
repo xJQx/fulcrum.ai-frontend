@@ -4,18 +4,25 @@ import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "states/AuthContextProvider";
+import {
+  ChatbotContext,
+  ChatbotContextProvider,
+} from "states/ChatbotContextProvider";
 
 type SpinnerProps = {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  chatbotID: string;
+  filename: string;
 };
 
-const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
+const Spinner = ({ setIsModalOpen, chatbotID, filename }: SpinnerProps) => {
   const authState = useContext(AuthContext);
+  const chatbotState = useContext(ChatbotContext);
+
   const fetch = useFetch();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false); //modal is originally closed, only opens after spinner has stopped spinning
-  const [endpointURL, setEndpointURL] = useState("");
 
   const navigate = useNavigate();
 
@@ -27,13 +34,12 @@ const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
   const createChatbot = async () => {
     const formData = new FormData();
     formData.append("userid", authState.user.id);
+    formData.append("personality", "ChatGPT");
+    formData.append("dataFileName", filename);
+    formData.append("chatbotID", chatbotID);
 
     try {
-      const data = await fetch.post(
-        `chatbot/createChatbot?userid=${authState.user.id}`,
-        {},
-        "form"
-      );
+      const data = await fetch.post(`chatbot/createChatbot`, formData, "form");
       return data;
     } catch (error) {
       console.error("Error calling createChatbot API:", error);
@@ -45,7 +51,7 @@ const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
     createChatbot()
       .then((response) => {
         const { endpointURL } = response;
-        setEndpointURL(endpointURL);
+        chatbotState.setEndpointURL(endpointURL);
         setIsLoading(false);
         setIsOpen(true);
       })

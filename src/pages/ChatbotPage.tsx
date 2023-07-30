@@ -38,6 +38,9 @@ export const ChatbotPage = () => {
   // for re-uploading same file if necessary
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  const [chatbotID, setChatbotID] = useState("");
+  const [filename, setFilename] = useState("");
+
   const handleRemove = () => {
     setSelectedFile(null);
     setPdfFile(null);
@@ -85,8 +88,8 @@ export const ChatbotPage = () => {
           .catch((error) => {
             console.error("Error uploading file:", error);
           });
-        const chatbotId = response.chatbotID;
-        const filename = response.filename;
+        setChatbotID(response.chatbotID);
+        setFilename(response.filename);
         setSelectedFile(selectedFile);
       } else {
         setPdfFile(null);
@@ -231,7 +234,7 @@ export const ChatbotPage = () => {
               </button>
               {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                  <ChatbotTraining setIsModalOpen={setIsModalOpen} />
+                  <ChatbotTraining filename={filename} chatbotID={chatbotID} setIsModalOpen={setIsModalOpen} />
                 </div>
               )}
             </div>

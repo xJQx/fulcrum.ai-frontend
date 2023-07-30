@@ -27,16 +27,19 @@ export const DashboardPage = () => {
   }, []);
 
   // TODO: Integrate with backend
-  // React.useEffect(() => {
-  //   try {
-  //     if (authContext.isLoggedIn)
-  //       fetch
-  //         .get("chatbot/getChatbot/...")
-  //         .catch((e) => console.log(e.detail));
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }, []);
+  React.useEffect(() => {
+    try {
+      if (authContext.isLoggedIn)
+        fetch
+          .get("chatbot/get/all")
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((e) => console.log(e.detail));
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
 
   return (
     <>
