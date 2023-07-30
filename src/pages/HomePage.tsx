@@ -1,5 +1,4 @@
 import { Hero } from "components/Hero";
-import { clientAssetBaseUrl } from "config/client";
 import React, { useContext, useEffect } from "react";
 import {
   FaArrowRight,
@@ -82,7 +81,7 @@ export const HomePage = () => {
           </div>
           <div className="mt-[56px] flex justify-center items-center">
             <img
-              src={`${clientAssetBaseUrl}assets/desktop-dashboard-preview.png`}
+              src="/fulcrum.ai-frontend/assets/desktop-dashboard-preview.png"
               alt="desktop-dashboard-preview.png"
             />
           </div>
