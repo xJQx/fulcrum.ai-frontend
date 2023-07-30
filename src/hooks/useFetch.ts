@@ -37,8 +37,12 @@ const handleResponse = async (response: Response) => {
 const useFetch = () => {
   const getAuthHeader = () => {
     const access_token = localStorage.getItem(LocalStorageEnum.access_token);
-    let authHeader = {};
-    if (access_token) authHeader = { Authorization: `Bearer ${access_token}` };
+    let authHeader: any = { "Access-Control-Allow-Origin": "*" };
+    if (access_token)
+      authHeader = {
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${access_token}`,
+      };
     return authHeader;
   };
 

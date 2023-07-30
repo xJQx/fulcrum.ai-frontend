@@ -1,8 +1,8 @@
 import { serverBaseUrl } from "config/server";
-import useFetch from "hooks/useFetch";
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { AuthContext } from "states/AuthContextProvider";
+import { LocalStorageEnum } from "types/enums";
 
 export const LoginGooglePage = () => {
   const navigate = useNavigate();
@@ -11,6 +11,20 @@ export const LoginGooglePage = () => {
   useEffect(() => {
     if (authContext.isLoggedIn) {
       navigate("/");
+    } else {
+      fetch(serverBaseUrl + "auth/login/cookies", { credentials: "include" })
+        .then((res) => res.json())
+        .then((data) => {
+          // has access_token -> Login user
+          if (data["access_token"]) {
+            localStorage.setItem(
+              LocalStorageEnum.access_token,
+              data["access_token"]
+            );
+            authContext.setIsLoggedIn(true);
+            navigate("/dashboard");
+          }
+        });
     }
   }, []);
 
