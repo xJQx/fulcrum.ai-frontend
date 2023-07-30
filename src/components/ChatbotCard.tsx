@@ -12,6 +12,10 @@ import { AuthContext } from "states/AuthContextProvider";
 
 export type ChatbotCardProps = ChatbotSchema;
 
+// interface ChatbotCardProps extends ChatbotSchema{
+//   onDelete:(chatbotId:string)=>void;
+// }
+
 export const ChatbotCard = (props: ChatbotCardProps) => {
   const {
     chatbot_id,
@@ -38,6 +42,7 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
       if (response.msg === "Success") {
         // Success
         console.log("Chatbot deleted successfully");
+        // props.onDelete(chatbot_id);
       } else {
         // Error handling
         console.error("Error while deleting chatbot:", response.error);

@@ -71,8 +71,8 @@ export const DashboardPage = () => {
           const uniqueChatbotIds = Array.from(new Set(chatbotIds));
 
           // Use Promise.all to wait for all API calls to complete
-          const chatbotDetailsPromises = uniqueChatbotIds.map((chatbotId: any) =>
-            fetch.get(`chatbot/getChatbot/${chatbotId}`)
+          const chatbotDetailsPromises = uniqueChatbotIds.map(
+            (chatbotId: any) => fetch.get(`chatbot/getChatbot/${chatbotId}`)
           );
           const chatbotDetailsResponses = await Promise.all(
             chatbotDetailsPromises
@@ -111,12 +111,13 @@ export const DashboardPage = () => {
       {/* Chatbot Cards */}
       <section className="mb-[80px] px-[32px] flex flex-col justify-center items-center">
         <div className="flex flex-wrap justify-center items-center gap-5 max-w-screen-lg">
-          {chatbotsList.map(
-            (chatbot, index) =>
-              index < numberOfChatbotsVisible && (
-                <ChatbotCard key={chatbot.chatbot_id} {...chatbot} />
-              )
-          )}
+          {chatbotsList.map((chatbot, index) => {
+            if (index < numberOfChatbotsVisible) {
+              console.log(chatbot);
+              return <ChatbotCard key={chatbot.chatbot_id} {...chatbot} />;
+            }
+            return null;
+          })}
         </div>
         <div className="w-full flex flex-col justify-center items-center mt-[42px] gap-3">
           {/* Hide Chatbot Button */}
