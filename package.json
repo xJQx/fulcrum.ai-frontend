@@ -1,6 +1,7 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "fulcrum.ai-frontend",
+  "version": "1.0.0",
+  "homepage": "https://xjqx.github.io/fulcrum.ai-frontend",
   "private": true,
   "dependencies": {
     "@heroicons/react": "^2.0.18",
