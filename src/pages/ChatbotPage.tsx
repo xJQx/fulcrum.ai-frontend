@@ -13,6 +13,7 @@ import ChatbotTraining from "components/Modal/ChatbotTraining";
 import { FileIcon, defaultStyles } from "react-file-icon";
 import useFetch from "hooks/useFetch";
 import { AuthContext } from "states/AuthContextProvider";
+import { GenericSpinner } from "components/GenericSpinner";
 
 export const ChatbotPage = () => {
   const fetch = useFetch();
@@ -30,6 +31,9 @@ export const ChatbotPage = () => {
 
   // for displaying the selected pdf name and size below with option to delete
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  // file upload progress
+  const [isFileUploading, setIsFileUploading] = useState<boolean>(false);
 
   const fileType = ["application/pdf"];
 
@@ -67,6 +71,8 @@ export const ChatbotPage = () => {
     // if the person has even selected a file
     if (selectedFile) {
       if (selectedFile && fileType.includes(selectedFile.type)) {
+        setIsFileUploading(true);
+
         let reader = new FileReader();
         reader.readAsDataURL(selectedFile);
         reader.onloadend = (event: any) => {
@@ -83,6 +89,8 @@ export const ChatbotPage = () => {
           .post("chatbot/uploadTrainingData", formData, "form")
           .then((data) => {
             console.log("File uploaded successfully:", data);
+            setIsFileUploading(false);
+            setSelectedFile(selectedFile);
             return data;
           })
           .catch((error) => {
@@ -155,6 +163,15 @@ export const ChatbotPage = () => {
               handleRemove={handleRemove}
               fileInputRef={fileInputRef}
             />
+
+            {/* File Upload Spinner */}
+            {isFileUploading && (
+              <div className="w-full flex flex-col gap-2 justify-center items-center mt-3">
+                <GenericSpinner />
+                <span className="text-brand-sandy-brown">Uploading...</span>
+              </div>
+            )}
+
             {/* display selected file with option to remove and choose another */}
             {selectedFile && (
               <div className="mt-[10px] file-preview absolute">
@@ -184,7 +201,7 @@ export const ChatbotPage = () => {
               type="button"
               style={{ transition: "all .3s cubic-bezier(0,0,.5,1)" }}
               className={` w-[70px] md:w-[100px] md:my-[10px] mb-[150px] text-center font-work-sans text-[#193338] bg-brand-sunglow font-medium rounded-lg text-xs md:text-sm px-3 py-2.5 relative uploadBtn ${
-                selectedFile ? "top-[100px]" : ""
+                selectedFile ? "top-[100px] block" : "hidden"
               }`}
               onClick={(e) => {
                 // handlePDFFile(e);
@@ -234,7 +251,11 @@ export const ChatbotPage = () => {
               </button>
               {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                  <ChatbotTraining filename={filename} chatbotID={chatbotID} setIsModalOpen={setIsModalOpen} />
+                  <ChatbotTraining
+                    filename={filename}
+                    chatbotID={chatbotID}
+                    setIsModalOpen={setIsModalOpen}
+                  />
                 </div>
               )}
             </div>
