@@ -1,6 +1,6 @@
 import FileUploader from "components/FileUploader";
 import { TextLinearGradient } from "components/Typography/TextLinearGradient";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { Viewer } from "@react-pdf-viewer/core"; // install this library
 // Plugins
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout"; // install this library
@@ -11,8 +11,13 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { Worker } from "@react-pdf-viewer/core"; // install this library
 import ChatbotTraining from "components/Modal/ChatbotTraining";
 import { FileIcon, defaultStyles } from "react-file-icon";
+import useFetch from "hooks/useFetch";
+import { AuthContext } from "states/AuthContextProvider";
 
 export const ChatbotPage = () => {
+  const fetch = useFetch();
+  const { user } = useContext(AuthContext);
+
   // create new plugin instance
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
@@ -74,16 +79,11 @@ export const ChatbotPage = () => {
         // Call the API to upload the training data
         const formData = new FormData();
         formData.append("file", selectedFile);
-        formData.append("email", "estherteogekwat@gmail.com");
+        formData.append("email", user.email);
         formData.append("chatbotID", "chatbot1");
 
-        await fetch("http://localhost:8000/api/chatbot/uploadTrainingData", {
-          // credentials: "include",
-          method: "POST",
-          // headers: headers,
-          body: formData,
-        })
-          .then((response) => response.json())
+        fetch
+          .post("chatbot/uploadTrainingData", formData, "form")
           .then((data) => {
             console.log("File uploaded successfully:", data.filename);
           })

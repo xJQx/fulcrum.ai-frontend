@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import useFetch from "hooks/useFetch";
+import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "states/AuthContextProvider";
 
 type SpinnerProps = {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
+  const authState = useContext(AuthContext);
+  const fetch = useFetch();
+
   const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false); //modal is originally closed, only opens after spinner has stopped spinning
   const [endpointURL, setEndpointURL] = useState("");
@@ -17,37 +22,18 @@ const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
     navigate("/chat");
   };
 
-  interface CreateChatbotRequest {
-    username: string;
-    chatbotID: string;
-  }
-
   // call the create_chatbot endpoint
   const createChatbot = async () => {
-    const endpoint = "http://localhost:8000/api/chatbot/createChatbot";
-    const requestBody: CreateChatbotRequest = {
-      username: "estherteogekwat@gmail.com",
-      chatbotID: "chatbot1",
-    };
-    try {
-      const response = await fetch(
-        `${endpoint}?username=${requestBody.username}&chatbotID=${requestBody.chatbotID}`,
-        {
-          // credentials: "include",
-          method: "POST",
-          // headers: {
-          //   'Accept': 'application/json',
-          //   'Content-Type': 'application/json'
-          //   },
-          // body: JSON.stringify(requestBody),
-        }
-      );
+    const formData = new FormData();
+    formData.append("userid", authState.user.id);
 
-      if (!response.ok) {
-        throw new Error("Network response was not OK");
-      }
-      const responseData = await response.json();
-      return responseData;
+    try {
+      const data = await fetch.post(
+        `chatbot/createChatbot?userid=${authState.user.id}`,
+        {},
+        "form"
+      );
+      return data;
     } catch (error) {
       console.error("Error calling createChatbot API:", error);
       throw error;
