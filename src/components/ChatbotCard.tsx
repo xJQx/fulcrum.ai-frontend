@@ -4,6 +4,7 @@ import { ButtonLink } from "./ButtonLink";
 import { ChatbotDisplaySchema } from "schemas/chatbot";
 import { Button } from "./Button";
 import useFetch from "hooks/useFetch";
+import { clientBaseUrl } from "config/client";
 
 export type ChatbotCardProps = ChatbotDisplaySchema;
 
@@ -26,7 +27,9 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetchAPI._delete(`chatbot/deleteChatbot/userId/${chatbotId}`);
+      const response = await fetchAPI._delete(
+        `${clientBaseUrl}chatbot/deleteChatbot/userId/${chatbotId}`
+      );
 
       // Handle the response here
       if (response.msg === "Success") {
@@ -48,7 +51,7 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
         {/* Chatbot Name */}
         <div className="flex flex-row gap-2 items-center font-semibold text-[24px]">
           {name}{" "}
-          <a href={`chat/${chatbotId}`}>
+          <a href={`${clientBaseUrl}chat/${chatbotId}`}>
             <FaArrowUpRightFromSquare className="w-[16px] cursor-pointer hover:text-brand-sandy-brown" />
           </a>
         </div>
@@ -95,10 +98,15 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
 
         {/* Button */}
         <section className="mt-3 flex gap-2 justify-end">
-          <Button className="bg-white border border-brand-sunglow text-brand-sunglow hover:bg-brand-sunglow hover:text-brand-gunmetal" onClick={handleDelete}>
+          <Button
+            className="bg-white border border-brand-sunglow text-brand-sunglow hover:bg-brand-sunglow hover:text-brand-gunmetal"
+            onClick={handleDelete}
+          >
             Delete
           </Button>
-          <ButtonLink href={`chat/${chatbotId}`}>Run</ButtonLink>
+          <ButtonLink href={`${clientBaseUrl}chat/${chatbotId}`}>
+            Run
+          </ButtonLink>
         </section>
       </div>
     </CardContainer>

@@ -1,5 +1,6 @@
 import { Button } from "components/Button";
 import { ChatbotCard } from "components/ChatbotCard";
+import { clientBaseUrl } from "config/client";
 import useFetch from "hooks/useFetch";
 import { chatbotsData } from "mockData/chatbotsData";
 import React, { useState } from "react";
@@ -21,7 +22,7 @@ export const DashboardPage = () => {
 
   React.useEffect(() => {
     if (!authContext.isLoggedIn) {
-      return navigate("/");
+      return navigate(clientBaseUrl);
     }
   }, []);
 
@@ -43,6 +44,13 @@ export const DashboardPage = () => {
       <section className="py-[42px] md:py-[56px] px-[48px] text-white flex flex-row justify-center gap-6">
         <div className="text-brand-gunmetal font-work-sans font-bold text-[30px] md:text-[40px] leading-tight text-center md:text-center above">
           Your Chatbots
+          <a
+            title="Create New Chatbot"
+            href={`${clientBaseUrl}chatbot`}
+            className="bg-brand-sunglow hover:bg-brand-sandy-brown ml-2 px-[8px] md:px-[10px] text-[26px] md:text-[32px] rounded-full text-brand-gunmetal h-max w-max cursor-pointer"
+          >
+            +
+          </a>
         </div>
       </section>
 

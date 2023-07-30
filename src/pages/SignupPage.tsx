@@ -1,3 +1,4 @@
+import { clientBaseUrl } from "config/client";
 import React, { useContext, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -22,7 +23,7 @@ export const SignupPage = () => {
 
   useEffect(() => {
     if (authContext.isLoggedIn) {
-      navigate("/");
+      navigate(clientBaseUrl);
     }
   }, []);
 
@@ -43,7 +44,7 @@ export const SignupPage = () => {
     //   toast.success("Signup Successfully!");
     // }
 
-    navigate("/login");
+    navigate(`${clientBaseUrl}login`);
   };
 
   return (
@@ -55,7 +56,10 @@ export const SignupPage = () => {
           <div className=" text-brand-gunmetal font-source-sans-pro font-normal max-w-[425px] text-[15px] py-[15px] text-center md:text-center below">
             Already have an account? Login{" "}
             <span className="hover:text-brand-burnt-sienna">
-              <a href="/login" className="underline cursor-pointer">
+              <a
+                href={`${clientBaseUrl}login`}
+                className="underline cursor-pointer"
+              >
                 here
               </a>
               .

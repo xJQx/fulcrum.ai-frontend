@@ -1,3 +1,4 @@
+import { clientBaseUrl } from "config/client";
 import useFetch from "hooks/useFetch";
 import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
@@ -19,7 +20,7 @@ const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
   const navigate = useNavigate();
 
   const navigateToChatPage = () => {
-    navigate("/chat");
+    navigate(`${clientBaseUrl}chat`);
   };
 
   // call the create_chatbot endpoint
@@ -96,7 +97,7 @@ const Spinner = ({ setIsModalOpen }: SpinnerProps) => {
         <div className="flex flex-col items-center justify-between p-[20px] md:p-[34px]">
           <div className="mb-2 md:mb-4">
             <img
-              src="assets/chatbot_logo.png"
+              src="/fulcrum.ai-frontend/assets/chatbot_logo.png"
               alt="chatbot"
               className="h-[70px] w-[70px] md:h-[125px] md:w-[125px]"
             />
