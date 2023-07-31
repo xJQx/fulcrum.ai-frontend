@@ -31,15 +31,17 @@ export const HomePage = () => {
       >
         {/* Section 1 - 3 Simple Steps */}
         <div id="promo-section-1">
-          <div className="font-semibold text-[20px] md:text-[28px]">
-            <span>3 Simple Steps. </span>
-            <span className="text-[#797979]">
-              To create a customized chatbot.
-            </span>
-          </div>
-          <div className="font-source-sans-pro text-[16px] md:text-[20px] mt-[12px] leading-tight max-w-[550px]">
-            Create a new chatbot with one click of a button and train it on a
-            document of your choice.
+          <div className="flex flex-col justify-center items-center">
+            <div className="font-semibold text-[20px] md:text-[28px] text-center">
+              <span>3 Simple Steps. </span>
+              <span className="text-[#797979]">
+                To create a customized chatbot.
+              </span>
+            </div>
+            <div className="font-source-sans-pro text-[16px] md:text-[20px] mt-[12px] leading-tight max-w-[550px] text-center">
+              Create a new chatbot with one click of a button and train it on a
+              document of your choice.
+            </div>
           </div>
 
           {/* 3 Steps Process Diagram */}
@@ -69,15 +71,17 @@ export const HomePage = () => {
 
         {/* Section 2 - Personalized Dashboard */}
         <div id="promo-section-2">
-          <div className="font-semibold text-[20px] md:text-[28px]">
-            <span>Personalized Dashboard. </span>
-            <span className="text-[#797979]">
-              For all your created chatbots.
-            </span>
-          </div>
-          <div className="font-source-sans-pro text-[16px] md:text-[20px] mt-[12px] leading-tight max-w-[550px]">
-            View all the chatbots you have created, trained on your document.
-            Select the best chatbot for your purposes.
+          <div className="flex flex-col justify-center items-center">
+            <div className="font-semibold text-[20px] md:text-[28px] text-center">
+              <span>Personalized Dashboard. </span>
+              <span className="text-[#797979]">
+                For all your created chatbots.
+              </span>
+            </div>
+            <div className="font-source-sans-pro text-[16px] md:text-[20px] mt-[12px] leading-tight max-w-[550px] text-center">
+              View all the chatbots you have created, trained on your document.
+              Select the best chatbot for your purposes.
+            </div>
           </div>
           <div className="mt-[56px] flex justify-center items-center">
             <img
