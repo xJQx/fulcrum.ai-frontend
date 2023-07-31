@@ -142,7 +142,7 @@ export const InputSection = (props: InputSectionProps) => {
       {/* PDF file drag and drop here */}
 
       {/* Upload Pdf */}
-      <div className="flex flex-col justify-center items-center mt-[60px] md:mt-[80px]">
+      <div className="flex flex-col justify-center items-center mt-[60px] md:mt-[80px] mb-[100px]">
         <div className="relative">
           <div className="font-work-sans font-semibold text-xl md:text-3xl md:mb-1 absolute top-[-25px] md:top-[-40px]">
             PDF File
@@ -188,19 +188,21 @@ export const InputSection = (props: InputSectionProps) => {
               </div>
             </div>
           )}
-          <button
-            type="button"
-            style={{ transition: "all .3s cubic-bezier(0,0,.5,1)" }}
-            className={` w-[70px] md:w-[100px] md:my-[10px] mb-[150px] text-center font-work-sans text-[#193338] bg-brand-sunglow font-medium rounded-lg text-xs md:text-sm px-3 py-2.5 relative uploadBtn ${
-              selectedFile ? "top-[100px] block" : "hidden"
-            }`}
-            onClick={(e) => {
-              // handlePDFFile(e);
-              handlePDFFileViewer(e);
-            }}
-          >
-            Upload
-          </button>
+
+          {selectedFile && (
+            <button
+              type="button"
+              style={{ transition: "all .3s cubic-bezier(0,0,.5,1)" }}
+              className="w-[70px] md:w-[100px] md:my-[10px] mb-[150px] text-center font-work-sans text-[#193338] bg-brand-sunglow font-medium rounded-lg text-xs md:text-sm px-3 py-2.5 relative  
+              top-[100px] block uploadBtn"
+              onClick={(e) => {
+                // handlePDFFile(e);
+                handlePDFFileViewer(e);
+              }}
+            >
+              Upload
+            </button>
+          )}
 
           {pdfFileError && (
             <div className="error-msg text-red-500 text-[14px] md:text-[16px] absolute top-[100%] mt-[-145px] md:mt-0">
@@ -225,7 +227,7 @@ export const InputSection = (props: InputSectionProps) => {
             >
               {viewPdf && (
                 <>
-                  <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.8.162/build/pdf.worker.min.js">
+                  <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.9.179/build/pdf.worker.min.js">
                     <Viewer
                       fileUrl={viewPdf}
                       plugins={[defaultLayoutPluginInstance]}

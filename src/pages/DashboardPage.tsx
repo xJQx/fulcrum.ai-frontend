@@ -34,35 +34,6 @@ export const DashboardPage = () => {
     }
   }, []);
 
-  // TODO: Integrate with backend
-  // React.useEffect(() => {
-  //   const callApi = async () => {
-  //     try {
-  //       if (authState.isLoggedIn) {
-  //         const chatbotsListtemp: ChatbotSchema[] = [];
-  //         const chatbotIds = await fetch
-  //           .get(`chatbot/getChatbots/${authState.user.id}`)
-  //           .then((data) => {
-  //             return data.chatbots;
-  //           })
-  //           .catch((e) => console.log(e.detail));
-  //         await chatbotIds.forEach(async (chatbotId: string) => {
-  //           await fetch
-  //             .get(`chatbot/getChatbot/${chatbotId}`)
-  //             .then((chatbotDetails) => {
-  //               chatbotsListtemp.push(chatbotDetails);
-  //               console.log(chatbotDetails);
-  //             });
-  //         });
-  //         setChatbotsList([...chatbotsListtemp]);
-  //       }
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-  //   callApi();
-  // }, []);
-
   React.useEffect(() => {
     const callApi = async () => {
       try {
@@ -74,8 +45,8 @@ export const DashboardPage = () => {
             })
             .catch((e) => console.log(e.detail));
 
-          // Remove duplicates using a Set
-          const uniqueChatbotIds = Array.from(new Set(chatbotIds));
+          // Remove duplicates 
+          const uniqueChatbotIds = Array.from(chatbotIds);
 
           // Use Promise.all to wait for all API calls to complete
           const chatbotDetailsPromises = uniqueChatbotIds.map(
@@ -89,15 +60,15 @@ export const DashboardPage = () => {
           );
 
           setChatbotsList([...chatbotsListtemp]);
+          console.log(chatbotsListtemp);
         }
       } catch (e) {
         console.log(e);
       }
     };
+
     callApi();
   }, []);
-
-  console.log(chatbotsList);
 
   return (
     <>
@@ -120,8 +91,14 @@ export const DashboardPage = () => {
         <div className="flex flex-wrap justify-center items-center gap-5 max-w-screen-lg">
           {chatbotsList.map((chatbot, index) => {
             if (index < numberOfChatbotsVisible) {
-              console.log(chatbot);
-              return <ChatbotCard key={chatbot.chatbot_id} {...chatbot} onDelete={handleChatbotDelete}/>;
+              // console.log(chatbot);
+              return (
+                <ChatbotCard
+                  key={chatbot.chatbot_id}
+                  {...chatbot}
+                  onDelete={handleChatbotDelete}
+                />
+              );
             }
             return null;
           })}
