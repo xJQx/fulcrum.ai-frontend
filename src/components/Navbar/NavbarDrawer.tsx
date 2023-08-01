@@ -6,6 +6,7 @@ import { serverBaseUrl } from "config/server";
 import { AuthContext } from "states/AuthContextProvider";
 import { useNavigate } from "react-router";
 import { clientBaseUrl } from "config/client";
+import { signOutWithGoogle } from "db/firebase";
 
 export interface NavbarDrawerProps {
   items: NavbarItemsProps["items"];
@@ -16,7 +17,8 @@ export const NavbarDrawer = (props: NavbarDrawerProps) => {
   const authState = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOutWithGoogle();
     authState.setIsLoggedIn(false);
     navigate(clientBaseUrl);
   };
@@ -26,7 +28,6 @@ export const NavbarDrawer = (props: NavbarDrawerProps) => {
       <NavbarItems items={items} />
       {/* Login/Logout Button */}
       <div className="mt-2">
-        {/* <ButtonLink href="login">Login</ButtonLink> */}
         {/* Login/Logout Button */}
         {authState.isLoggedIn ? (
           <a href={serverBaseUrl + "auth/logout"} onClick={handleLogout}>

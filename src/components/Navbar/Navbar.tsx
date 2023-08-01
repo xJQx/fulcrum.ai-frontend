@@ -11,6 +11,7 @@ import { Button } from "components/Button";
 import { useNavigate } from "react-router";
 import { serverBaseUrl } from "config/server";
 import { clientBaseUrl } from "config/client";
+import { signOutWithGoogle } from "db/firebase";
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -30,7 +31,8 @@ export const Navbar = () => {
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOutWithGoogle();
     authState.setIsLoggedIn(false);
     navigate(clientBaseUrl);
   };

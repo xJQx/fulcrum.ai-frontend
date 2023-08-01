@@ -5,32 +5,52 @@ import { AuthContext } from "states/AuthContextProvider";
 import jwt from "jwt-decode";
 import toast from "react-hot-toast";
 import { clientBaseUrl } from "config/client";
+import { loginWithGoogle } from "db/firebase";
 
 export const LoginGooglePage = () => {
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
 
-  useEffect(() => {
-    if (authContext.isLoggedIn) {
-      navigate(clientBaseUrl);
-    } else {
-      fetch(serverBaseUrl + "auth/login/cookies", { credentials: "include" })
-        .then((res) => res.json())
-        .then((data) => {
-          // has access_token -> Login user
-          if (data["access_token"]) {
-            authContext.setAccessToken(data["access_token"]);
-            authContext.setUser(jwt(data["access_token"]));
-            authContext.setIsLoggedIn(true);
-            toast.success(
-              "Logged In Successfully. Welcome " + authContext.user.name
-            );
-            navigate(`${clientBaseUrl}dashboard`);
-          }
-        })
-        .catch((e) => toast.error("Error: " + e));
+  // Original Google OAuth
+  // useEffect(() => {
+  //   if (authContext.isLoggedIn) {
+  //     navigate(clientBaseUrl);
+  //   } else {
+  //     fetch(serverBaseUrl + "auth/login/cookies", { credentials: "include" })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         // has access_token -> Login user
+  //         if (data["access_token"]) {
+  //           authContext.setAccessToken(data["access_token"]);
+  //           authContext.setUser(jwt(data["access_token"]));
+  //           authContext.setIsLoggedIn(true);
+  //           toast.success(
+  //             "Logged In Successfully. Welcome " + authContext.user.name
+  //           );
+  //           navigate(`${clientBaseUrl}dashboard`);
+  //         }
+  //       })
+  //       .catch((e) => toast.error("Error: " + e));
+  //   }
+  // }, []);
+
+  // Firebase Google OAuth
+  const handleLogIn = async () => {
+    const response = await loginWithGoogle();
+    if (!response) {
+      toast.error("Failed to Log In. Please try again");
+      return;
     }
-  }, []);
+
+    const { token, user } = response as any;
+    console.log(token);
+    console.log(user);
+    authContext.setAccessToken(token);
+    authContext.setUser(user);
+    authContext.setIsLoggedIn(true);
+    toast.success("Logged In Successfully. Welcome " + "user");
+    navigate(`${clientBaseUrl}dashboard`);
+  };
 
   return (
     <>
@@ -48,7 +68,7 @@ export const LoginGooglePage = () => {
             Login with google buttons
             Note: Must use <a> for redirect purposes
           */}
-          <a href={serverBaseUrl + "auth/login/google"}>
+          <div onClick={handleLogIn}>
             <div className="flex flex-row justify-center items-center bg-[#4385F5] hover:bg-[#366dca] p-[2px] rounded">
               <img
                 src="/fulcrum.ai-frontend/assets/google-logo.png"
@@ -58,7 +78,7 @@ export const LoginGooglePage = () => {
                 Login with Google
               </span>
             </div>
-          </a>
+          </div>
         </div>
       </div>
     </>
