@@ -2,9 +2,10 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore/lite";
 import {
   getAuth,
-  signInWithPopup,
   GoogleAuthProvider,
   signOut,
+  signInWithRedirect,
+  getRedirectResult,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -14,26 +15,37 @@ const firebaseConfig = {
   storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID,
-  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
+  // measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
 const provider = new GoogleAuthProvider();
-const auth = getAuth();
+// const auth = getAuth();
 
 export const loginWithGoogle = async () => {
-  await signInWithPopup(auth, provider)
+  const auth = getAuth();
+  await signInWithRedirect(auth, provider);
+};
+
+export const getGoogleAuthResult = async () => {
+  let response = null;
+  const auth = getAuth();
+  await getRedirectResult(auth)
     .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential?.accessToken;
-      // The signed-in user info.
-      const user = result.user;
-      // IdP data available using getAdditionalUserInfo(result)
-      // ...
-      return { token: token, user: user };
+      if (result) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+        console.log("success");
+        console.log({ token: token, user: user });
+        response = { token: token, user: user };
+      }
     })
     .catch((error) => {
       // Handle Errors here.
@@ -50,10 +62,13 @@ export const loginWithGoogle = async () => {
       console.log("credential: " + credential);
       // ...
     });
-  return null;
+  console.log("end");
+  console.log(response);
+  return response;
 };
 
 export const signOutWithGoogle = async () => {
+  const auth = getAuth();
   await signOut(auth)
     .then(() => {
       // Sign-out successful.

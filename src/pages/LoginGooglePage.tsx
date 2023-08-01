@@ -5,52 +5,40 @@ import { AuthContext } from "states/AuthContextProvider";
 import jwt from "jwt-decode";
 import toast from "react-hot-toast";
 import { clientBaseUrl } from "config/client";
-import { loginWithGoogle } from "db/firebase";
+import { getGoogleAuthResult, loginWithGoogle } from "db/firebase";
 
 export const LoginGooglePage = () => {
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
 
-  // Original Google OAuth
-  // useEffect(() => {
-  //   if (authContext.isLoggedIn) {
-  //     navigate(clientBaseUrl);
-  //   } else {
-  //     fetch(serverBaseUrl + "auth/login/cookies", { credentials: "include" })
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         // has access_token -> Login user
-  //         if (data["access_token"]) {
-  //           authContext.setAccessToken(data["access_token"]);
-  //           authContext.setUser(jwt(data["access_token"]));
-  //           authContext.setIsLoggedIn(true);
-  //           toast.success(
-  //             "Logged In Successfully. Welcome " + authContext.user.name
-  //           );
-  //           navigate(`${clientBaseUrl}dashboard`);
-  //         }
-  //       })
-  //       .catch((e) => toast.error("Error: " + e));
-  //   }
-  // }, []);
-
   // Firebase Google OAuth
   const handleLogIn = async () => {
-    const response = await loginWithGoogle();
-    if (!response) {
-      toast.error("Failed to Log In. Please try again");
-      return;
-    }
-
-    const { token, user } = response as any;
-    console.log(token);
-    console.log(user);
-    authContext.setAccessToken(token);
-    authContext.setUser(user);
-    authContext.setIsLoggedIn(true);
-    toast.success("Logged In Successfully. Welcome " + "user");
-    navigate(`${clientBaseUrl}dashboard`);
+    console.log("handleLogIn");
+    await loginWithGoogle();
   };
+
+  useEffect(() => {
+    const getLogInResult = async () => {
+      console.log("getLogInResult");
+      const response = await getGoogleAuthResult();
+      if (!response) {
+        return;
+      } else {
+        console.log(response);
+        const { token, user } = response;
+        authContext.setAccessToken(token);
+        authContext.setUser(user);
+        authContext.setIsLoggedIn(true);
+        navigate(`${clientBaseUrl}dashboard`);
+      }
+    };
+    if (authContext.isLoggedIn) {
+      toast.success("Logged In Successfully. Welcome " + "user");
+      navigate(clientBaseUrl);
+    } else {
+      getLogInResult();
+    }
+  }, []);
 
   return (
     <>

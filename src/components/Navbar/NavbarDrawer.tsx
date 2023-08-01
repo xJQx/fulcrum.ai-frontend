@@ -30,9 +30,9 @@ export const NavbarDrawer = (props: NavbarDrawerProps) => {
       <div className="mt-2">
         {/* Login/Logout Button */}
         {authState.isLoggedIn ? (
-          <a href={serverBaseUrl + "auth/logout"} onClick={handleLogout}>
+          <div onClick={handleLogout}>
             <Button className="cursor-pointer">Logout</Button>
-          </a>
+          </div>
         ) : (
           <ButtonLink href={clientBaseUrl + "login"}>Login</ButtonLink>
         )}

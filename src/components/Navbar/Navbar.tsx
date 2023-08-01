@@ -60,9 +60,9 @@ export const Navbar = () => {
       {/* Login/Logout Button */}
       <div className="hidden md:block">
         {authState.isLoggedIn ? (
-          <a href={serverBaseUrl + "auth/logout"} onClick={handleLogout}>
+          <div onClick={handleLogout}>
             <Button className="cursor-pointer">Logout</Button>
-          </a>
+          </div>
         ) : (
           <ButtonLink href={clientBaseUrl + "login"}>Login</ButtonLink>
         )}
