@@ -8,13 +8,13 @@ import { clientBaseUrl } from "config/client";
 import { getGoogleAuthResult, loginWithGoogle } from "db/firebase";
 import useFetch from "hooks/useFetch";
 import { JwtUserSchema } from "schemas/jwt";
+import { getAuth } from "firebase/auth";
 
 export const LoginGooglePage = () => {
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
   const fetch = useFetch();
 
-  // Firebase Google OAuth
   const handleLogIn = async () => {
     await loginWithGoogle();
   };
@@ -29,20 +29,23 @@ export const LoginGooglePage = () => {
       return;
     } else {
       console.log(response);
-      const { token, user } = response;
+      const { token, user } = response as {
+        token: string;
+        user: any;
+      };
       console.log("token:", token);
       console.log("user:", user);
 
       // Register User if User does not exist in the server.
       const { userExists } = await fetch.get(
-        `/user/checkExist/userid/${user.id}` // TODO: this should be firebase user_id
+        `/users/checkExist/userid/${user.uid}` // TODO: this should be firebase user_id
       );
       if (!userExists) {
         const formData = new FormData();
-        formData.append("userid", user.id); // TODO: this should be firebase user_id
-        formData.append("name", user.name); // TODO: this should be firebase name
+        formData.append("userid", user.uid); // TODO: this should be firebase user_id
+        formData.append("name", user.displayName); // TODO: this should be firebase name
         formData.append("email", user.email); // TODO: this should be firebase email
-        const res = await fetch.post("/user/register", formData, "form");
+        const res = await fetch.post("/users/register", formData, "form");
         if (res.user) {
           // user created succesfully
           toast.success("User has been successfully registered");
@@ -52,15 +55,25 @@ export const LoginGooglePage = () => {
           return;
         }
       }
-
       // Update State
       const loggedInUser: JwtUserSchema = {
-        id: user.id, // TODO: this should be firebase user_id
+        id: user.uid, // TODO: this should be firebase user_id
         email: user.email, // TODO: this should be firebase email
-        name: user.name, // TODO: this should be firebase name
+        name: user.displayName, // TODO: this should be firebase name
         registered: true,
       };
-      authContext.setAccessToken(token);
+      const auth = getAuth();
+
+      const id_token = await auth 
+        .currentUser?.getIdToken(/* forceRefresh */ true)
+        .then(function (idToken) {
+          return idToken;
+        })
+        .catch(function (error) {
+          // Handle error
+          console.log(error);
+        }) as string;
+      authContext.setAccessToken(id_token);
       authContext.setUser(loggedInUser);
       authContext.setIsLoggedIn(true);
 
@@ -78,7 +91,6 @@ export const LoginGooglePage = () => {
       parseLogInResult();
     }
   }, []);
-
   return (
     <>
       {/* Header */}
@@ -87,7 +99,6 @@ export const LoginGooglePage = () => {
           Login
         </div>
       </section>
-
       {/* Login Methods */}
       <div className="flex flex-col justify-center items-center">
         <div className="max-w-[230px]">
@@ -96,7 +107,7 @@ export const LoginGooglePage = () => {
             Note: Must use <a> for redirect purposes
           */}
           <div onClick={handleLogIn}>
-            <div className="flex flex-row justify-center items-center bg-[#4385F5] hover:bg-[#366dca] p-[2px] rounded">
+            <div className="flex flex-row justify-center items-center bg-[#4385F5] hover:bg-[#366dca] p-[2px] rounded hover:cursor-pointer">
               <img
                 src="/fulcrum.ai-frontend/assets/google-logo.png"
                 className="w-10 rounded"

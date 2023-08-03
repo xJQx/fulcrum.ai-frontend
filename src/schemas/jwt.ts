@@ -3,4 +3,5 @@ export interface JwtUserSchema {
   email: string;
   name: string;
   registered: boolean;
+  // accessToken: string;
 }

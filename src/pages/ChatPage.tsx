@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { AuthContext } from "states/AuthContextProvider";
 import { ChatbotContext } from "states/ChatbotContextProvider";
 
+
 const ChatPage = () => {
   const authState = useContext(AuthContext);
   const chatbotState = useContext(ChatbotContext);
@@ -43,17 +44,37 @@ const ChatPage = () => {
     }
   };
 
+
   useEffect(() => {
+    const url = `${chatbotState.endpointURL.replace("https://", "ws://")}/api/comms/chat?access_token=${encodeURIComponent(
+    authState.accessToken
+  )}`;
+
     const webSocket = new WebSocket(
-      `${chatbotState.endpointURL.replace("https://", "ws://")}/api/comms/chat`
+      url,
+      // {
+      //   // perMessageDeflate: true, //enables message compression
+      //   // headers: {
+      //   //   authorization: "Bearer ${this._token}", //token generated from clientId and secret
+      //   // },
+      // }
     );
+    // const webSocket = new WebSocket(
+    //   `${chatbotState.endpointURL.replace(
+    //     "https://",
+    //     "ws://"
+    //   )}/api/comms/chat?access_token=${encodeURIComponent(
+    //     authState.accessToken
+    //   )}`
+    // );
+
     webSocketRef.current = webSocket;
 
-    webSocket.onopen = (event) => {
+    webSocket.onopen = (event: any) => {
       console.log("WebSocket connection established.");
     };
 
-    webSocket.onmessage = (event) => {
+    webSocket.onmessage = (event: any) => {
       const message = event.data;
       setChatbotResponse(message);
       const newMessage = { type: "chatbot", content: message };

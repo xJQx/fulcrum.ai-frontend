@@ -48,6 +48,9 @@ export const InputSection = (props: InputSectionProps) => {
   // for re-uploading same file if necessary
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  //for the case where user selects a new non-pdf file when there is already a valid pdf file displayed
+  const [isFileUploaded, setIsFileUploaded] = useState(false);
+
   const handleRemove = () => {
     setSelectedFile(null);
     setPdfFile(null);
@@ -71,10 +74,12 @@ export const InputSection = (props: InputSectionProps) => {
   const handlePDFFile = async (event: any) => {
     event.preventDefault();
     const selectedFile = event.target.files && event.target.files[0];
+
     // if the person has even selected a file
     if (selectedFile) {
       if (selectedFile && fileType.includes(selectedFile.type)) {
         setIsFileUploading(true);
+        setIsFileUploaded(false);
 
         const reader = new FileReader();
         reader.readAsDataURL(selectedFile);
@@ -87,27 +92,46 @@ export const InputSection = (props: InputSectionProps) => {
         const formData = new FormData();
         formData.append("file", selectedFile);
         formData.append("email", user.email);
-        // formData.append("chatbotID", "chatbot1");
+
         const response = await fetch
           .post("chatbot/uploadTrainingData", formData, "form")
           .then((data) => {
             console.log("File uploaded successfully:", data);
+            setIsFileUploaded(true);
             setIsFileUploading(false);
             setSelectedFile(selectedFile);
             return data;
           })
           .catch((error) => {
             console.error("Error uploading file:", error);
+            setIsFileUploading(false);
+            setSelectedFile(null);
+            setIsFileUploaded(false);
           });
         setChatbotID(response.chatbotID);
         setFilename(response.filename);
         setSelectedFile(selectedFile);
+        setIsFileUploaded(false);
       } else {
         setPdfFile(null);
         setPdfFileError("Please select valid PDF File.");
       }
     } else {
       setPdfFileError("Please select your file.");
+    }
+
+    // At the end of the function, set isFileUploaded to true if a valid file is uploaded
+    if (selectedFile && fileType.includes(selectedFile.type)) {
+      setIsFileUploaded(true);
+    } else {
+      setIsFileUploaded(false);
+    }
+    // Check if a valid PDF file is already uploaded
+    if (isFileUploaded && !fileType.includes(selectedFile.type)) {
+      setPdfFileError(
+        "Please select valid PDF File or try re-uploading the same file."
+      );
+      return;
     }
   };
 
@@ -142,7 +166,7 @@ export const InputSection = (props: InputSectionProps) => {
       {/* PDF file drag and drop here */}
 
       {/* Upload Pdf */}
-      <div className="flex flex-col justify-center items-center mt-[60px] md:mt-[80px] mb-[100px]">
+      <div className="flex flex-col justify-center items-center mt-[60px] md:mt-[80px] mb-[100px] h-auto">
         <div className="relative">
           <div className="font-work-sans font-semibold text-xl md:text-3xl md:mb-1 absolute top-[-25px] md:top-[-40px]">
             PDF File
@@ -189,26 +213,31 @@ export const InputSection = (props: InputSectionProps) => {
             </div>
           )}
 
-          {selectedFile && (
-            <button
-              type="button"
-              style={{ transition: "all .3s cubic-bezier(0,0,.5,1)" }}
-              className="w-[70px] md:w-[100px] md:my-[10px] mb-[150px] text-center font-work-sans text-[#193338] bg-brand-sunglow font-medium rounded-lg text-xs md:text-sm px-3 py-2.5 relative  
+          <div className="flex flex-col">
+            {selectedFile && (
+              <button
+                type="button"
+                style={{ transition: "all .3s cubic-bezier(0,0,.5,1)" }}
+                className="w-[70px] md:w-[100px] md:my-[10px] mb-[150px] text-center font-work-sans text-[#193338] bg-brand-sunglow font-medium rounded-lg text-xs md:text-sm px-3 py-2.5 relative  
               top-[100px] block uploadBtn"
-              onClick={(e) => {
-                // handlePDFFile(e);
-                handlePDFFileViewer(e);
-              }}
-            >
-              Upload
-            </button>
-          )}
+                onClick={(e) => {
+                  handlePDFFileViewer(e);
+                }}
+              >
+                Upload
+              </button>
+            )}
 
-          {pdfFileError && (
-            <div className="error-msg text-red-500 text-[14px] md:text-[16px] absolute top-[100%] mt-[-145px] md:mt-0">
-              {pdfFileError}
-            </div>
-          )}
+            {pdfFileError && (
+              <div
+                className={`error-msg text-red-500 text-[14px] md:text-[16px] absolute top-full flex flex-col ${
+                  selectedFile ? "md:mt-[100px]" : ""
+                }`}
+              >
+                {pdfFileError}
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <br></br>
@@ -227,7 +256,7 @@ export const InputSection = (props: InputSectionProps) => {
             >
               {viewPdf && (
                 <>
-                  <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.9.179/build/pdf.worker.min.js">
+                  <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.8.162/build/pdf.worker.min.js">
                     <Viewer
                       fileUrl={viewPdf}
                       plugins={[defaultLayoutPluginInstance]}
