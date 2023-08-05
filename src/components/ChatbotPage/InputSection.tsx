@@ -231,7 +231,7 @@ export const InputSection = (props: InputSectionProps) => {
             {pdfFileError && (
               <div
                 className={`error-msg text-red-500 text-[14px] md:text-[16px] absolute top-full flex flex-col ${
-                  selectedFile ? "md:mt-[100px]" : ""
+                  selectedFile ? "mt-[-30px] md:mt-[100px]" : ""
                 }`}
               >
                 {pdfFileError}

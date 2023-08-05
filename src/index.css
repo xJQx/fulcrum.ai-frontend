@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.FAQsection {
-  background-color: #f2f2f2;
-}
-
 .card:hover {
   /* Apply pop-out effect on hover */
   transform: scale(1.05);

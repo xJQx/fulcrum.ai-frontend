@@ -172,7 +172,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onPostQns }) => {
                 <button
                   id="button"
                   type="submit"
-                  className="mt-3 md:mt-5 rounded-lg bg-brand-sunglow text-black text-[14px] md:text-[16px] px-10 py-1 md:px-20 md:py-3"
+                  className="mt-3 md:mt-5 rounded-lg bg-brand-sunglow hover:bg-brand-sandy-brown text-black text-[14px] md:text-[16px] px-10 py-1 md:px-20 md:py-3"
                 >
                   Post a Question
                 </button>

@@ -16,7 +16,7 @@ const FAQ = ({ icon, question, answer }: Props) => {
         boxShadow: "2px 4px 12px rgba(0,0,0,.08)",
         transition: "all .3s cubic-bezier(0,0,.5,1)",
       }}
-      className="mt-5 rounded-md border-2 border-gray-100 bg-white px-5 py-16 text-center min-h-0 h-auto card md:h-[400px]"
+      className="mt-5 rounded-md border-2 border-gray-100 px-5 py-16 text-center min-h-0 h-auto card md:h-[400px] bg-white"
     >
       <div className="mb-4 flex justify-center text-brand-sandy-brown">
         <div

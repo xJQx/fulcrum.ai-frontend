@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import FAQ from "../components/FAQ";
 import {
   QuestionMarkCircleIcon,
@@ -9,6 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { LiaRobotSolid } from "react-icons/lia";
 import GetInTouch from "../components/GetInTouch";
+import { IoSearchSharp } from "react-icons/io5";
 
 const FaQ: Array<{ icon: JSX.Element; question: string; answer: string }> = [
   {
@@ -49,19 +50,45 @@ const FaQ: Array<{ icon: JSX.Element; question: string; answer: string }> = [
 ];
 
 export const FAQPage = () => {
+  //search bar
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredFAQ = FaQ.filter(
+    (faq) =>
+      faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      faq.answer.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // fn to update the search term everytime
+  const handleSearch = (event: any) => {
+    setSearchTerm(event.target.value);
+  };
+
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <section className="bg-brand-gunmetal pt-[30px] pb-[30px] md:pt-[10px] px-[48px] text-white flex flex-row justify-center gap-6">
-        <div className="font-work-sans font-bold text-[30px] md:text-[40px] leading-tight text-center md:text-center above">
+        <div className="font-work-sans font-bold text-[30px] md:text-[40px] leading-tight text-center md:text-center above ">
           Ask Us Anything
-          <div className=" text-brand-sunglow font-source-sans-pro font-semibold max-w-[425px] text-[15px] pt-[15px] pb-[30px] text-center md:text-center below">
+          <div className=" text-brand-sunglow font-source-sans-pro font-semibold w-[425px] text-[18px] pt-[15px] pb-[10px] text-center md:text-center below ">
             Have any questions? We&apos;re here to assist you.
+            <div className="bg-white rounded-md h-[35px] w-[250px] text-[16px] md:h-[40px] md:w-[270px] md:text-[18px] mx-auto flex align-center justify-center px-2 input-wrapper mt-[25px]">
+              <IoSearchSharp className=" text-gray-500 top-1/2 my-auto " />
+              <input
+                type="search"
+                name="search"
+                placeholder="Search keywords here"
+                value={searchTerm}
+                onChange={handleSearch}
+                className=" rounded-md border-none focus:outline-none h-full w-full pl-[8px]
+                  text-black font-regular top-1/2"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="FAQsection p-4 px-8 grid grid-cols-1 gap-10 md:grid-cols-2 md:grid-rows-3 md:gap-[20px] xl:grid-cols-3 xl:grid-rows-2 xl:gap-[20px]">
-        {FaQ.map((faq) => (
+      <section className="FAQsection p-4 px-8 grid grid-cols-1 gap-10 md:grid-cols-2 md:grid-rows-3 md:gap-[20px] xl:grid-cols-3 xl:grid-rows-2 xl:gap-[20px] bg-[#f2f2f2]">
+        {filteredFAQ.map((faq) => (
           <FAQ
             key={faq.question}
             icon={faq.icon}
@@ -70,9 +97,10 @@ export const FAQPage = () => {
           />
         ))}
       </section>
-      <section className="FAQsection p-4 px-8 pb-8">
+
+      <section className="FAQsection p-4 px-8 pb-8 bg-[#f2f2f2] flex-grow">
         <GetInTouch />
       </section>
-    </>
+    </div>
   );
 };
