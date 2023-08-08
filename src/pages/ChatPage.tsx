@@ -2,7 +2,7 @@ import { serverWebsocketBaseUrl } from "config/server";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { AuthContext } from "states/AuthContextProvider";
 import { ChatbotContext } from "states/ChatbotContextProvider";
-
+import ReconnectingWebSocket from "reconnecting-websocket";
 
 const ChatPage = () => {
   const authState = useContext(AuthContext);
@@ -21,7 +21,7 @@ const ChatPage = () => {
     { type: string; content: string }[]
   >([]);
 
-  const webSocketRef = useRef<WebSocket | null>(null);
+  const webSocketRef = useRef<ReconnectingWebSocket | null>(null);
 
   const handleTyping = (event: any) => {
     setIsTyping(event.target.value.trim() !== "" && event.target.value !== "");
@@ -44,51 +44,36 @@ const ChatPage = () => {
     }
   };
 
-
   useEffect(() => {
-    const url = `${chatbotState.endpointURL.replace("https://", "ws://")}/api/comms/chat?access_token=${encodeURIComponent(
-    authState.accessToken
-  )}`;
+    const webSocketUrl = `${chatbotState.endpointURL.replace(
+      "https://",
+      "wss://"
+    )}/api/comms/chat/auth/?id_token=${encodeURIComponent(
+      authState.accessToken
+    )}`;
 
-    const webSocket = new WebSocket(
-      url,
-      // {
-      //   // perMessageDeflate: true, //enables message compression
-      //   // headers: {
-      //   //   authorization: "Bearer ${this._token}", //token generated from clientId and secret
-      //   // },
-      // }
-    );
-    // const webSocket = new WebSocket(
-    //   `${chatbotState.endpointURL.replace(
-    //     "https://",
-    //     "ws://"
-    //   )}/api/comms/chat?access_token=${encodeURIComponent(
-    //     authState.accessToken
-    //   )}`
-    // );
+    const ws = new ReconnectingWebSocket(webSocketUrl);
 
-    webSocketRef.current = webSocket;
+    webSocketRef.current = ws;
 
-    webSocket.onopen = (event: any) => {
+    ws.onopen = (event: any) => {
       console.log("WebSocket connection established.");
     };
 
-    webSocket.onmessage = (event: any) => {
+    ws.onmessage = (event: any) => {
       const message = event.data;
       setChatbotResponse(message);
       const newMessage = { type: "chatbot", content: message };
       setConversationHistory((prevHistory) => [...prevHistory, newMessage]);
     };
 
-    webSocket.onclose = () => {
-      console.log("WebSocket connection closed.");
-    };
-
     //cleanup
     return () => {
       // do null check if typescript says its possibly null
       if (webSocketRef.current) {
+        ws.onclose = () => {
+          console.log("WebSocket connection closed.");
+        };
         webSocketRef.current.close();
       }
     };
