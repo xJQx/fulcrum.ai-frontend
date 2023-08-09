@@ -23,9 +23,9 @@ const ChatPage = () => {
 
   const webSocketRef = useRef<ReconnectingWebSocket | null>(null);
 
-  const handleTyping = (event: any) => {
-    setIsTyping(event.target.value.trim() !== "" && event.target.value !== "");
-  };
+  // const handleTyping = (event: any) => {
+  //   setIsTyping(event.target.value.trim() !== "" && event.target.value !== "");
+  // };
 
   const handleBlur = () => {
     setIsTyping(false);
@@ -50,6 +50,20 @@ const ChatPage = () => {
       setMessage("");
     }
   };
+
+  //autoscroll when msgs reach the bottom of the screen
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  // Scroll to the bottom of the messages section
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [conversationHistory]);
 
   useEffect(() => {
     const webSocketUrl = `${chatbotState.endpointURL.replace(
@@ -87,57 +101,60 @@ const ChatPage = () => {
   }, []);
 
   return (
-    <div className="h-full flex">
-      <div className="bg-white h-full flex flex-col flex-1 chatbot w-full">
+    <div className="h-screen flex ">
+      <div className="bg-white h-screen flex flex-col flex-1 chatbot w-full">
         {/* Chat messages section */}
-        <div className="w-full user">
+        <div className="w-full user overflow-auto">
           {conversationHistory.map((msg, index) => (
             <div
               key={index}
-              className={`flex items-center p-[18px] md:p-[24px] m-auto gap-4 w-5/6 md:w-4/6 border-b border-black/10 ${
+              className={`flex items-center p-[18px] md:p-[24px] mx-auto w-full border-b border-black/10 ${
                 msg.type === "user"
                   ? "bg-white"
                   : msg.type === "chatbot"
-                  ? "bg-gray-50"
+                  ? "bg-gray-100"
                   : ""
               }`}
             >
-              {msg.type === "user" && (
-                <div className="rounded-full bg-gray-200 h-10 w-10 md:h-12 md:w-12 flex justify-center items-center avatar">
-                  <span className="font-bold text-brand-gunmetal">
-                    {authState.user.name.substring(0, 3).toUpperCase()}
-                  </span>
-                </div>
-              )}
+              <div className="flex w-5/6 md:w-4/6 gap-4 items-center mx-auto">
+                {msg.type === "user" && (
+                  <div className="rounded-full bg-gray-200 h-10 w-10 md:h-12 md:w-12 flex justify-center items-center shrink-0 avatar">
+                    <span className="font-bold text-brand-gunmetal">
+                      {authState.user.name.substring(0, 3).toUpperCase()}
+                    </span>
+                  </div>
+                )}
 
-              {msg.type === "chatbot" && (
-                <div className="rounded-full bg-brand-sunglow h-10 w-10 md:h-12 md:w-12 flex justify-center items-center avatar">
-                  <img
-                    src="/fulcrum.ai-frontend/assets/fulcrum.ai_logo.png"
-                    alt="Fulcrum.ai Logo"
-                    className="h-8 w-8 md:h-10 md:w-10"
-                  />
-                </div>
-              )}
+                {msg.type === "chatbot" && (
+                  <div className="rounded-full bg-brand-sunglow h-10 w-10 md:h-12 md:w-12 flex justify-center items-center shrink-0 avatar">
+                    <img
+                      src="/fulcrum.ai-frontend/assets/fulcrum.ai_logo.png"
+                      alt="Fulcrum.ai Logo"
+                      className="h-8 w-8 md:h-10 md:w-10"
+                    />
+                  </div>
+                )}
 
-              <div
-                className={`text-black chat-message ${
-                  msg.type === "user" ? "user" : "chatbot"
-                }`}
-              >
-                {msg.content}
+                <div
+                  className={`text-black chat-message ${
+                    msg.type === "user" ? "user" : "chatbot"
+                  }`}
+                >
+                  {msg.content}
+                </div>
               </div>
             </div>
           ))}
+          <div className="mb-[150px]" ref={messagesEndRef} />
         </div>
-        <div className="bg-gray-50 w-full"></div>
 
         {/* Text input field for the question */}
-        <div className="fixed bottom-0 w-full flex items-end justify-center chat-input bg-white">
+
+        <div className="bg-white fixed bottom-0 w-full flex items-end justify-center chat-input ">
           <div className="relative flex flex-col mb-[20px] w-5/6 md:w-4/6">
             <textarea
               style={{ boxShadow: "0 0 8px 0 rgba(0, 0, 0, 0.5)" }}
-              className="bg-[#40414f] w-full rounded-md placeholder-center text-black text-md p-[12px]"
+              className="bg-[#40414f] w-full rounded-md placeholder-center text-white text-md p-[12px]"
               placeholder="Ask a Question"
               rows={1}
               value={message}
