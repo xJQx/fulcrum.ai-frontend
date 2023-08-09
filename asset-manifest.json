@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/fulcrum.ai-frontend/static/css/main.5a1e3f32.css",
-    "main.js": "/fulcrum.ai-frontend/static/js/main.77827d27.js",
+    "main.css": "/fulcrum.ai-frontend/static/css/main.123d40d2.css",
+    "main.js": "/fulcrum.ai-frontend/static/js/main.d4fa7525.js",
     "static/media/source-sans-pro-700.woff": "/fulcrum.ai-frontend/static/media/source-sans-pro-700.71261353a1d4e98c646f.woff",
     "static/media/source-sans-pro-400.woff": "/fulcrum.ai-frontend/static/media/source-sans-pro-400.5533a6de69fa9743fe6f.woff",
     "static/media/source-sans-pro-600.woff": "/fulcrum.ai-frontend/static/media/source-sans-pro-600.24d5e29793cd5966cffc.woff",
@@ -59,11 +59,11 @@
     "static/media/source-sans-pro-600italic.woff2": "/fulcrum.ai-frontend/static/media/source-sans-pro-600italic.970845d7e38c39f42640.woff2",
     "static/media/source-sans-pro-300italic.woff2": "/fulcrum.ai-frontend/static/media/source-sans-pro-300italic.fb7d9ac504119745f12a.woff2",
     "index.html": "/fulcrum.ai-frontend/index.html",
-    "main.5a1e3f32.css.map": "/fulcrum.ai-frontend/static/css/main.5a1e3f32.css.map",
-    "main.77827d27.js.map": "/fulcrum.ai-frontend/static/js/main.77827d27.js.map"
+    "main.123d40d2.css.map": "/fulcrum.ai-frontend/static/css/main.123d40d2.css.map",
+    "main.d4fa7525.js.map": "/fulcrum.ai-frontend/static/js/main.d4fa7525.js.map"
   },
   "entrypoints": [
-    "static/css/main.5a1e3f32.css",
-    "static/js/main.77827d27.js"
+    "static/css/main.123d40d2.css",
+    "static/js/main.d4fa7525.js"
   ]
 }
