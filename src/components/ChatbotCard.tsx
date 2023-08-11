@@ -12,8 +12,8 @@ import { AuthContext } from "states/AuthContextProvider";
 
 // export type ChatbotCardProps = ChatbotSchema;
 
-interface ChatbotCardProps extends ChatbotSchema{
-  onDelete:(chatbotId:string)=>void;
+interface ChatbotCardProps extends ChatbotSchema {
+  onDelete: (_: string) => void;
 }
 
 export const ChatbotCard = (props: ChatbotCardProps) => {
@@ -127,8 +127,14 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
           <div>
             Deployed At: <span className="underline">{deployedURL}</span>
           </div>
-          <div>Created At: {created_date["$date"]}</div>
-          <div>Updated At: {updated_date["$date"]}</div>
+          <div>
+            Created At:{" "}
+            {new Date(parseInt(created_date["$date"])).toLocaleString()}
+          </div>
+          <div>
+            Updated At:{" "}
+            {new Date(parseInt(updated_date["$date"])).toLocaleString()}
+          </div>
         </section>
 
         {/* Button */}
