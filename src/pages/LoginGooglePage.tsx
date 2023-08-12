@@ -97,7 +97,7 @@ export const LoginGooglePage = () => {
     <>
       {/* Header */}
       <div className="bg-[#f2f2f2] min-h-screen">
-        <section className="py-[42px] md:pt-[56px] px-[48px] text-white flex flex-row justify-center gap-6">
+        <section className="py-[42px] md:pt-[56px] md:pb-[35px] px-[48px] text-white flex flex-row justify-center gap-6">
           <div className="text-brand-gunmetal font-work-sans font-bold text-[30px] md:text-[40px] leading-tight text-center md:text-center above">
             Login
           </div>
@@ -110,7 +110,7 @@ export const LoginGooglePage = () => {
             Note: Must use <a> for redirect purposes
           */}
             <div onClick={handleLogIn}>
-              <div className="flex flex-row justify-center items-center bg-white md:py-[14px] md:px-[20px] pt-[12px] pr-[16px] pb-[12px] pl-[16px] ml-[10px] border-none rounded-[3px] hover:bg-[#ebebeb] transition duration-300 shadow-normal-shadow hover:cursor-pointer hover:shadow-hover-shadow ">
+              <div className="flex flex-row justify-center items-center bg-white md:py-[14px] md:px-[20px] pt-[12px] pr-[16px] pb-[12px] pl-[16px] ml-[10px] border-none rounded-[4px] hover:bg-[#ebebeb] transition duration-300 shadow-normal-shadow hover:cursor-pointer hover:shadow-hover-shadow ">
                 <div
                   style={{
                     backgroundImage:

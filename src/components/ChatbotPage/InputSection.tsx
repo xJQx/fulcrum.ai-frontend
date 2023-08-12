@@ -196,7 +196,7 @@ export const InputSection = (props: InputSectionProps) => {
                 </div>
                 <div className="text-[14px] md:text-[16px] flex flex-col justify-center file-preview__item__info">
                   <p>{selectedFile.name}</p>
-                  <p>{selectedFile.size}B</p>
+                  <p>{Math.round(selectedFile.size / 1000)}KB</p>
                 </div>
                 <button
                   style={{

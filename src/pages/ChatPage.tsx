@@ -57,7 +57,7 @@ const ChatPage = () => {
   // Scroll to the bottom of the messages section
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -112,7 +112,7 @@ const ChatPage = () => {
                 msg.type === "user"
                   ? "bg-white"
                   : msg.type === "chatbot"
-                  ? "bg-gray-100"
+                  ? "bg-gray-50"
                   : ""
               }`}
             >
