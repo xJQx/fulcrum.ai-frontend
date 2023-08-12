@@ -13,7 +13,7 @@ import { AuthContext } from "states/AuthContextProvider";
 // export type ChatbotCardProps = ChatbotSchema;
 
 interface ChatbotCardProps extends ChatbotSchema {
-  onDelete: (chatbotId: string) => void;
+  onDelete: (_: string) => void;
 }
 
 export const ChatbotCard = (props: ChatbotCardProps) => {
@@ -129,11 +129,11 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
           </div>
           <div>
             Created At:{" "}
-            {new Date(parseInt(created_date["$date"]) * 1000).toUTCString()}
+            {new Date(parseInt(created_date["$date"])).toLocaleString()}
           </div>
           <div>
             Updated At:{" "}
-            {new Date(parseInt(updated_date["$date"]) * 1000).toUTCString()}
+            {new Date(parseInt(updated_date["$date"])).toLocaleString()}
           </div>
         </section>
 
