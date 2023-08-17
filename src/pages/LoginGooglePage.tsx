@@ -28,59 +28,63 @@ export const LoginGooglePage = () => {
     if (!response) {
       return;
     } else {
-      console.log(response);
-      const { token, user } = response as {
-        token: string;
-        user: any;
-      };
-      console.log("token:", token);
-      console.log("user:", user);
+      try {
+        const { token, user } = response as {
+          token: string;
+          user: any;
+        };
+        console.log("token:", token);
+        console.log("user:", user);
 
-      // Register User if User does not exist in the server.
-      const { userExists } = await fetch.get(
-        `/users/checkExist/userid/${user.uid}` // TODO: this should be firebase user_id
-      );
-      if (!userExists) {
-        const formData = new FormData();
-        formData.append("userid", user.uid); // TODO: this should be firebase user_id
-        formData.append("name", user.displayName); // TODO: this should be firebase name
-        formData.append("email", user.email); // TODO: this should be firebase email
-        const res = await fetch.post("/users/register", formData, "form");
-        if (res.user) {
-          // user created succesfully
-          toast.success("User has been successfully registered");
-        } else {
-          console.log(res.error);
-          toast.error("Failed to register user");
-          return;
+        // Register User if User does not exist in the server.
+        const { userExists } = await fetch.get(
+          `/users/checkExist/userid/${user.uid}` // TODO: this should be firebase user_id
+        );
+        if (!userExists) {
+          const formData = new FormData();
+          formData.append("userid", user.uid); // TODO: this should be firebase user_id
+          formData.append("name", user.displayName); // TODO: this should be firebase name
+          formData.append("email", user.email); // TODO: this should be firebase email
+          const res = await fetch.post("/users/register", formData, "form");
+          if (res.user) {
+            // user created succesfully
+            toast.success("User has been successfully registered");
+          } else {
+            console.log(res.error);
+            toast.error("Failed to register user");
+            return;
+          }
         }
+        // Update State
+        const loggedInUser: JwtUserSchema = {
+          id: user.uid, // TODO: this should be firebase user_id
+          email: user.email, // TODO: this should be firebase email
+          name: user.displayName, // TODO: this should be firebase name
+          registered: true,
+        };
+        const auth = getAuth();
+
+        const id_token = (await auth.currentUser
+          ?.getIdToken(/* forceRefresh */ true)
+          .then(function (idToken) {
+            return idToken;
+          })
+          .catch(function (error) {
+            // Handle error
+            console.log(error);
+          })) as string;
+        authContext.setAccessToken(id_token);
+        authContext.setUser(loggedInUser);
+        authContext.setIsLoggedIn(true);
+
+        console.log("id_token:", id_token);
+
+        toast.success("Log in successfully.");
+        navigate(`${clientBaseUrl}dashboard`);
+      } catch (e) {
+        console.error("Error: ", e);
+        toast.error("Failed to log in. Please try again later.");
       }
-      // Update State
-      const loggedInUser: JwtUserSchema = {
-        id: user.uid, // TODO: this should be firebase user_id
-        email: user.email, // TODO: this should be firebase email
-        name: user.displayName, // TODO: this should be firebase name
-        registered: true,
-      };
-      const auth = getAuth();
-
-      const id_token = (await auth.currentUser
-        ?.getIdToken(/* forceRefresh */ true)
-        .then(function (idToken) {
-          return idToken;
-        })
-        .catch(function (error) {
-          // Handle error
-          console.log(error);
-        })) as string;
-      authContext.setAccessToken(id_token);
-      authContext.setUser(loggedInUser);
-      authContext.setIsLoggedIn(true);
-
-      console.log("id_token:", id_token);
-
-      toast.success("Log in successfully.");
-      navigate(`${clientBaseUrl}dashboard`);
     }
   };
 

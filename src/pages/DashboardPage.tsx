@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChatbotSchema } from "schemas/chatbot";
 import { AuthContext } from "states/AuthContextProvider";
+import toast from "react-hot-toast";
 
 export const DashboardPage = () => {
   const fetch = useFetch();
@@ -45,7 +46,7 @@ export const DashboardPage = () => {
             })
             .catch((e) => console.log(e.detail));
 
-          // Remove duplicates 
+          // Remove duplicates
           const uniqueChatbotIds = Array.from(chatbotIds);
 
           // Use Promise.all to wait for all API calls to complete
@@ -64,6 +65,7 @@ export const DashboardPage = () => {
         }
       } catch (e) {
         console.log(e);
+        toast.error("Error loading chatbots. Please try again later.");
       }
     };
 

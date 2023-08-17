@@ -50,6 +50,7 @@ export const ChatbotCard = (props: ChatbotCardProps) => {
     } catch (error) {
       // Handle any errors that occurred during the API call
       console.error("Error during API call:", error);
+      toast.error("Failed to delete chatbot. Please try again later.");
     }
   };
 
